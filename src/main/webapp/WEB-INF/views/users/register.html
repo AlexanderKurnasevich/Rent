@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация</title>
+</head>
+<body>
+<form th:method="POST" th:action="@{/users}">
+  <label for="username">Имя пользователя: </label>
+  <input type="text" th:field="${client.username}" id="username" required/>
+  <!--    <div style="color: red" th:if="${#fields.hasErrors('surname')}" th:errors="*{client.surname}">surname error</div>-->
+  <br/>
+  <label for="password">Пароль: </label>
+  <input type="password" th:field="${client.password}" id="password" required/>
+  <!--    <div style="color: red" th:if="${#fields.hasErrors('surname')}" th:errors="*{client.surname}">surname error</div>-->
+  <br/>
+  <label for="pass_confirm">Повторите пароль: </label>
+  <input type="password" th:field="${client.password}" id="pass_confirm" required/>
+  <!--    <div style="color: red" th:if="${#fields.hasErrors('surname')}" th:errors="*{client.surname}">surname error</div>-->
+  <br/>
+  <label for="surname">Фамилия: </label>
+  <input type="text" th:field="${client.surname}" id="surname" required/>
+  <!--    <div style="color: red" th:if="${#fields.hasErrors('surname')}" th:errors="*{client.surname}">surname error</div>-->
+  <br/>
+  <label for="cl_name">Имя: </label>
+  <input type="text" th:field="*{client.name}" id="cl_name" required/>
+  <!--    <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{client.name}">name error</div>-->
+  <br/>
+  <label for="dateOfBirth">Дата рождения: </label>
+  <input type="date" th:field="*{client.dateOfBirth}" id="dateOfBirth" required/>
+  <!--    <div style="color: red" th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{client.dateOfBirth}">dateOfBirth error</div>-->
+  <br/>
+  <label for="sex">Пол: </label>
+  <input type="text" th:field="${client.sex}" id="sex" required/>
+  <br/>
+  <label for="email">Email: </label>
+  <input type="text" th:field="${client.email}" id="email" required/>
+  <!--    <div style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{client.email}">email error</div>-->
+  <br/>
+  <label for="passportNo">Номер пасспорта: </label>
+  <input type="text" th:field="${client.passportNo}" id="passportNo" required/>
+  <!--    <div style="color: red" th:if="${#fields.hasErrors('passportNo')}" th:errors="*{client.passportNo}">passportNo error</div>-->
+  <br/>
+  <label for="dateOfIssue">Дата выдачи: </label>
+  <input type="date" th:field="*{client.dateOfIssue}" id="dateOfIssue" required/>
+  <!--    <div style="color: red" th:if="${#fields.hasErrors('dateOfIssue')}" th:errors="*{client.dateOfIssue}">dateOfIssue error</div>-->
+  <br/>
+  <label for="dateOfExpiry">Действителен до: </label>
+  <input type="date" th:field="*{client.dateOfExpiry}" id="dateOfExpiry" required/>
+  <!--    <div style="color: red" th:if="${#fields.hasErrors('dateOfExpiry')}" th:errors="*{client.dateOfExpiry}">dateOfExpiry error</div>-->
+  <br/>
+  <label for="authority">Выдан: </label>
+  <input type="text" th:field="${client.authority}" id="authority" required/>
+  <!--    <div style="color: red" th:if="${#fields.hasErrors('authority')}" th:errors="*{client.authority}">email error</div>-->
+  <br/>
+  <label for="personalNo">Личный номер: </label>
+  <input type="text" th:field="${client.personalNo}" id="personalNo" required/>
+  <!--    <div style="color: red" th:if="${#fields.hasErrors('personalNo')}" th:errors="*{client.personalNo}">email error</div>-->
+  <br/>
+  <input type="submit" value="Зарегистрироваться!"/>
+</form>
+</body>
+</html>

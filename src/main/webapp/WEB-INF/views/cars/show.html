@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Машина</title>
+</head>
+<body>
+    <p>Модель: </p><a th:text="${car.getName()}"></a>
+    <p>Багаж: </p><a th:text="${car.getBags()}"></a>
+    <p>Дверей: </p><a th:text="${car.getDoors()}"></a>
+    <p>Пассажиров: </p><a th:text="${car.getPassengers()}"></a>
+    <p>Тип: </p><a th:text="${car.getCarType()}"></a>
+
+    <br/>
+    <hr/>
+    <a th:href="@{/orders/new/{id}(id=${car.getId()})}">Заказать!</a>
+
+</body>
+
+</html>

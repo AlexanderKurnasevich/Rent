@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Новый заказ</title>
+</head>
+<body>
+<form th:method="POST" th:action="@{/orders}">
+    <p>Ваша машина: </p><a th:text="${car.getName()}"></a>
+    <hr/>
+    <p>Заполните форму:</p>
+    <hr/>
+    <label for="surname">Фамилия: </label>
+    <input type="text" th:field="${client.surname}" id="surname"/>
+<!--    <div style="color: red" th:if="${#fields.hasErrors('surname')}" th:errors="*{client.surname}">surname error</div>-->
+    <br/>
+    <label for="cl_name">Имя: </label>
+    <input type="text" th:field="*{client.name}" id="cl_name"/>
+<!--    <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{client.name}">name error</div>-->
+    <br/>
+    <label for="dateOfBirth">Дата рождения: </label>
+    <input type="date" th:field="*{client.dateOfBirth}" id="dateOfBirth"/>
+    <!--    <div style="color: red" th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{client.dateOfBirth}">dateOfBirth error</div>-->
+    <br/>
+    <label for="sex">Пол: </label>
+    <input type="text" th:field="${client.sex}" id="sex"/>
+    <br/>
+    <label for="email">Email: </label>
+    <input type="text" th:field="${client.email}" id="email"/>
+    <!--    <div style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{client.email}">email error</div>-->
+    <br/>
+    <label for="passportNo">Номер пасспорта: </label>
+    <input type="text" th:field="${client.passportNo}" id="passportNo"/>
+    <!--    <div style="color: red" th:if="${#fields.hasErrors('passportNo')}" th:errors="*{client.passportNo}">passportNo error</div>-->
+    <br/>
+    <label for="dateOfIssue">Дата выдачи: </label>
+    <input type="date" th:field="*{client.dateOfIssue}" id="dateOfIssue"/>
+    <!--    <div style="color: red" th:if="${#fields.hasErrors('dateOfIssue')}" th:errors="*{client.dateOfIssue}">dateOfIssue error</div>-->
+    <br/>
+    <label for="dateOfExpiry">Действителен до: </label>
+    <input type="date" th:field="*{client.dateOfExpiry}" id="dateOfExpiry"/>
+    <!--    <div style="color: red" th:if="${#fields.hasErrors('dateOfExpiry')}" th:errors="*{client.dateOfExpiry}">dateOfExpiry error</div>-->
+    <br/>
+    <label for="authority">Выдан: </label>
+    <input type="text" th:field="${client.authority}" id="authority"/>
+    <!--    <div style="color: red" th:if="${#fields.hasErrors('authority')}" th:errors="*{client.authority}">email error</div>-->
+    <br/>
+    <label for="personalNo">Личный номер: </label>
+    <input type="text" th:field="${client.personalNo}" id="personalNo"/>
+    <!--    <div style="color: red" th:if="${#fields.hasErrors('personalNo')}" th:errors="*{client.personalNo}">email error</div>-->
+    <br/>
+    <label for="firstDay">Первый день аредны: </label>
+    <input type="date" th:field="${order.firstDay}" id="firstDay"/>
+    <br/>
+    <label for="lastDay">Последний день аренды: </label>
+    <input type="date" th:field="${order.lastDay}" id="lastDay"/>
+    <br/>
+    <label for="name">Enter name: </label>
+    <input type="text" th:field="*{order.paid}" id="name"/>
+    <br/>
+    <input type="hidden" th:field="*{order.carId}" id="carId">
+    <input type="submit" value="Сделать заказ!"/>
+</form>
+</body>
+</html>
