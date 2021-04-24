@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.spring5.SpringTemplateEngine;
@@ -55,17 +56,18 @@ public class MvcConfig implements WebMvcConfigurer {
     @Bean
     public DataSource getDataSource() {
         DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
-        //dataSourceBuilder.driverClassName("com.mysql.jdbc.Driver");
+        //dataSourceBuilder.driverClassName("org.postgresql.driver");
         dataSourceBuilder.url("jdbc:postgresql://localhost/ride_me");
         dataSourceBuilder.username("postgres");
         dataSourceBuilder.password("17101993");
         return dataSourceBuilder.build();
     }
 
-//    @Override
-//    public void addViewControllers(ViewControllerRegistry registry) {
-//        registry.addViewController("/login").setViewName("login");
-//        registry.addViewController("/news").setViewName("news");
-//    }
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/login").setViewName("login");
+        registry.addViewController("/news").setViewName("news");
+        registry.addViewController("/").setViewName("index");
+    }
 
 }
