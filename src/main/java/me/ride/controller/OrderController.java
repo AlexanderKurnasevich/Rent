@@ -3,7 +3,7 @@ package me.ride.controller;
 import me.ride.entity.system.Order;
 import me.ride.entity.User;
 import me.ride.entity.car.Car;
-import me.ride.exceptions.CarNotFoundException;
+import me.ride.exception.CarNotFoundException;
 import me.ride.service.CarService;
 import me.ride.service.OrderService;
 import me.ride.service.UserService;

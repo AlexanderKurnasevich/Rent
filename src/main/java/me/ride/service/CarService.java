@@ -2,7 +2,7 @@ package me.ride.service;
 
 import me.ride.entity.car.Car;
 import me.ride.repository.CarRepository;
-import me.ride.exceptions.CarNotFoundException;
+import me.ride.exception.CarNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

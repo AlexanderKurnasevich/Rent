@@ -1,4 +1,4 @@
-package me.ride.exceptions;
+package me.ride.exception;
 
 import java.sql.SQLException;
 

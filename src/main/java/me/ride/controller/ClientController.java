@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,17 +38,18 @@ public class ClientController {
     }
 
     @PostMapping("/register")
-    public String addUser(@ModelAttribute("clientForm") @Valid User userForm, @Valid Client clientForm, BindingResult bindingResult, Model model) {
+    public String addUser(@ModelAttribute("userForm") @Valid User userForm, BindingResult bindingResult,
+                          @ModelAttribute("clientForm") @Valid Client clientForm, BindingResult bindingResult2, Model model) {
 
-        if (bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors() || bindingResult2.hasErrors()) {
             return "client/register";
         }
-        if (!userForm.getPassword().equals(userForm.getPasswordConfirm())){
-            model.addAttribute("passwordError", "Пароли не совпадают");
+        if (!userForm.getPassword().equals(userForm.getPasswordConfirm())) {
+            bindingResult.addError(new FieldError("userForm","passwordConfirm","Пароли не совпадают"));
             return "client/register";
         }
-        if (!userService.saveUser(userForm)){
-            model.addAttribute("usernameError", "Пользователь с таким именем уже существует");
+        if (!userService.saveUser(userForm)) {
+            bindingResult.addError(new FieldError("userForm","username","Пользователь с таким именем уже существует"));
             return "client/register";
         }
         clientForm.setUser(userForm);
@@ -59,7 +62,7 @@ public class ClientController {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = "";
         if (principal instanceof UserDetails) {
-            username = ((UserDetails)principal).getUsername();
+            username = ((UserDetails) principal).getUsername();
         } else {
             username = principal.toString();
         }
@@ -68,12 +71,5 @@ public class ClientController {
         model.addAttribute("client", clientService.findClientByUser((User) user));
 
         return "client/profile";
-    }
-
-    @PostMapping("/test")
-    public String addUser(@ModelAttribute("clientForm") @Valid Client clientForm, Model model) {
-
-        clientService.saveClient(clientForm);
-        return "redirect:/";
     }
 }

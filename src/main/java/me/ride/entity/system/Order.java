@@ -29,7 +29,7 @@ public class Order {
     @OneToOne
     private User user;
 
-    @ManyToOne
+    @OneToOne
     private Car car;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")

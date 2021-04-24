@@ -13,9 +13,9 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
 import javax.sql.DataSource;
 
-@Configuration
-@ComponentScan("me.ride")
-@EnableWebMvc
+//@Configuration
+//@ComponentScan("me.ride")
+//@EnableWebMvc
 public class MvcConfig implements WebMvcConfigurer {
     private final ApplicationContext applicationContext;
 

@@ -1,7 +1,7 @@
 package me.ride.controller;
 
 import me.ride.entity.car.Car;
-import me.ride.exceptions.CarNotFoundException;
+import me.ride.exception.CarNotFoundException;
 import me.ride.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
