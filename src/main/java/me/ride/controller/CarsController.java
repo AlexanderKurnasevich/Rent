@@ -1,31 +1,28 @@
 package me.ride.controller;
 
 import me.ride.entity.car.Car;
-import me.ride.repository.CarsDAO;
+import me.ride.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/cars")
 public class CarsController {
 
     @Autowired
-    private CarsDAO carsDAO;
+    private CarService carService;
 
     @GetMapping()
     public String index(Model model){
-        model.addAttribute("cars", carsDAO.index());
+        model.addAttribute("cars", carService.index());
         return"cars/index";
     }
 
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model){
-        model.addAttribute("car", carsDAO.show(id));
+    public String show(@PathVariable("id") Long id, Model model){
+        model.addAttribute("car", carService.show(id));
         return "cars/show";
     }
 
@@ -36,7 +33,7 @@ public class CarsController {
 
     @PostMapping
     public String create(@ModelAttribute("car") Car car){
-        carsDAO.save(car);
+        carService.save(car);
         return "redirect:/cars";
     }
 }

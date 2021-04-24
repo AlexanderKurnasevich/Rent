@@ -13,7 +13,7 @@ public class Car {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Enumerated(EnumType.STRING)
     private CarType carType;
@@ -24,7 +24,7 @@ public class Car {
 
     public Car() {}
 
-    public Car(int id, CarType carType, String name, int bags, int passengers, int doors) {
+    public Car(Long id, CarType carType, String name, int bags, int passengers, int doors) {
         this.id = id;
         this.carType = carType;
         this.name = name;
