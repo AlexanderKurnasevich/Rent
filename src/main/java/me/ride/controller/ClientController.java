@@ -5,6 +5,8 @@ import me.ride.entity.client.Client;
 import me.ride.service.ClientService;
 import me.ride.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -52,11 +54,20 @@ public class ClientController {
         return "redirect:/";
     }
 
-    @GetMapping("/test")
-    public String testShow(Model model) {
-        model.addAttribute("clientForm", new Client());
+    @GetMapping()
+    public String profileShow(Model model) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = "";
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails)principal).getUsername();
+        } else {
+            username = principal.toString();
+        }
+        UserDetails user = userService.loadUserByUsername(username);
+        model.addAttribute("user", user);
+        model.addAttribute("client", clientService.findClientByUser((User) user));
 
-        return "client/test";
+        return "client/profile";
     }
 
     @PostMapping("/test")
