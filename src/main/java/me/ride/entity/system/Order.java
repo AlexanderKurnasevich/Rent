@@ -1,7 +1,8 @@
-package me.ride.entity;
+package me.ride.entity.system;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.ride.entity.User;
 import me.ride.entity.car.Car;
 import me.ride.entity.client.Client;
 import org.springframework.beans.propertyeditors.CustomDateEditor;

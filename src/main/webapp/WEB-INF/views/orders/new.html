@@ -5,7 +5,7 @@
     <title>Новый заказ</title>
 </head>
 <body>
-<form th:method="POST" th:action="@{/orders}">
+<form th:method="POST" th:action="@{/orders/new/{id}(id=${car.getId()})}">
     <p>Ваша машина: </p><a th:text="${car.getName()}"></a>
     <hr/>
     <p>Заполните форму:</p>

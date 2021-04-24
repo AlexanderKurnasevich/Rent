@@ -53,7 +53,6 @@ public class MvcConfig implements WebMvcConfigurer {
     @Bean
     public DataSource getDataSource() {
         DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
-        //dataSourceBuilder.driverClassName("org.postgresql.driver");
         dataSourceBuilder.url("jdbc:postgresql://localhost/ride_me");
         dataSourceBuilder.username("postgres");
         dataSourceBuilder.password("17101993");

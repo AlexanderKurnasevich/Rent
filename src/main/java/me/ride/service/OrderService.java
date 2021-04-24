@@ -1,6 +1,6 @@
 package me.ride.service;
 
-import me.ride.entity.Order;
+import me.ride.entity.system.Order;
 import me.ride.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

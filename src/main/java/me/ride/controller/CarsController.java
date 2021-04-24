@@ -1,6 +1,7 @@
 package me.ride.controller;
 
 import me.ride.entity.car.Car;
+import me.ride.exceptions.CarNotFoundException;
 import me.ride.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,7 +23,14 @@ public class CarsController {
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") Long id, Model model){
-        model.addAttribute("car", carService.show(id));
+        Car car = null;
+        try {
+            car = carService.show(id);
+        } catch (CarNotFoundException throwables) {
+            throwables.printStackTrace();
+            return "redirect:/cars";
+        }
+        model.addAttribute("car", car);
         return "cars/show";
     }
 
