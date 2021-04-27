@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import me.ride.entity.User;
 import me.ride.entity.car.Car;
-import me.ride.entity.client.Client;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.WebDataBinder;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import javax.persistence.*;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.NotNull;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -33,22 +33,20 @@ public class Order {
     private Car car;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @FutureOrPresent
+    @FutureOrPresent(message = "Начиная с сегодня")
+    @NotNull
     private Date firstDay;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Future
+    @FutureOrPresent
+    @NotNull
     private Date lastDay;
 
-    private boolean underConsideration;
-    private boolean accepted;
-    private boolean isPaid;
-    private String refusalNotice;
-    private boolean isReturned;
-    private double damageCost;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus;
 
     public Order() {
-        underConsideration = true;
+        orderStatus = OrderStatus.UNDER_CONSIDERATION;
     }
 
     public Order(Long id, User user, Car car, Date firstDay, Date lastDay) {
@@ -57,7 +55,7 @@ public class Order {
         this.car = car;
         this.firstDay = firstDay;
         this.lastDay = lastDay;
-        underConsideration = true;
+        orderStatus = OrderStatus.UNDER_CONSIDERATION;
     }
 
     @InitBinder

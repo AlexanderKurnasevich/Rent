@@ -13,7 +13,8 @@
 
     <br/>
     <hr/>
-    <a th:href="@{/orders/new/{id}(id=${car.getId()})}">Заказать!</a>
+    <a th:href="@{/orders/new(carId=${id})}">Заказать!</a>
+<!--    <a th:href="@{/orders/new/{id}(id=${car.getId()})}">Заказать!</a>-->
 
 </body>
 

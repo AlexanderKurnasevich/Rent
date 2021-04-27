@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:method="POST" th:action="@{/admin/order_test}" th:object="${order}">
+    <label for="firstDay">Первый день аредны: </label>
+    <input type="date" th:field="${order.firstDay}" id="firstDay"/>
+    <br/>
+    <label for="lastDay">Последний день аренды: </label>
+    <input type="date" th:field="${order.lastDay}" id="lastDay"/>
+    <br/>
+</form>
+</body>
+</html>

@@ -29,21 +29,25 @@ public class OrderController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/new/{carId}")
-    public String newOrder(@ModelAttribute("order") Order order, @PathVariable("carId") Long carId, Model model){
+    @GetMapping("/new")
+    public String newOrder(@ModelAttribute("order") Order order, @RequestParam(value = "carId") Long carId, Model model){
         Car car = null;
         try {
             car = carService.show(carId);
-        } catch (CarNotFoundException throwables) {
-            throwables.printStackTrace();
+        } catch (CarNotFoundException throwable) {
+            throwable.printStackTrace();
             return "redirect:/cars";
         }
         model.addAttribute("car", car);
+        order.setCar(car);
         return "orders/new";
     }
 
-    @PostMapping("/new/{carId}")
-    public String create(@ModelAttribute("order") @Valid Order order, @PathVariable("carId") Long carId, BindingResult bindingResult, Model model){
+    @PostMapping("/new")
+    public String create(@ModelAttribute("order") @Valid Order order, BindingResult bindingResult, Model model){
+        if (bindingResult.hasErrors()) {
+            return "orders/new";
+        }
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = "";
         if (principal instanceof UserDetails) {
@@ -53,14 +57,6 @@ public class OrderController {
         }
         UserDetails user = userService.loadUserByUsername(username);
         order.setUser((User) user);
-        Car car = null;
-        try {
-            car = carService.show(carId);
-        } catch (CarNotFoundException throwables) {
-            throwables.printStackTrace();
-            return "redirect:/cars";
-        }
-        order.setCar(car);
         orderService.save(order);
         return "redirect:/cars";
     }

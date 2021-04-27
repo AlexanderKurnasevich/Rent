@@ -5,18 +5,20 @@
     <title>Новый заказ</title>
 </head>
 <body>
-<form th:method="POST" th:action="@{/orders/new/{id}(id=${car.getId()})}">
-    <p>Ваша машина: </p><a th:text="${car.getName()}"></a>
+<form th:method="POST" th:action="@{/orders/new}">
+    <p>Ваша машина: </p><a th:text="${order.getCar().getName()}"></a>
     <hr/>
     <p>Заполните форму:</p>
     <hr/>
     <label for="firstDay">Первый день аредны: </label>
     <input type="date" th:field="${order.firstDay}" id="firstDay"/>
+    <div style="color: red" th:if="${#fields.hasErrors('order.firstDay')}" th:errors="*{order.firstDay}">date error</div>
     <br/>
     <label for="lastDay">Последний день аренды: </label>
     <input type="date" th:field="${order.lastDay}" id="lastDay"/>
+    <div style="color: red" th:if="${#fields.hasErrors('order.lastDay')}" th:errors="*{order.lastDay}">date error</div>
     <br/>
-<!--    <input type="hidden" th:field="*{order.carId}" id="carId">-->
+    <input type="hidden" th:field="*{order.car}" id="car">
     <input type="submit" value="Сделать заказ!"/>
 </form>
 </body>
