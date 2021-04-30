@@ -2,7 +2,9 @@ package me.ride.repository;
 
 import me.ride.entity.User;
 import me.ride.entity.system.Order;
+import me.ride.entity.system.OrderStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.Date;
@@ -15,5 +17,11 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             "o.orderStatus <> me.ride.entity.system.OrderStatus.REFUSED")
     List<Order> findOrderByCarBetween(Long carId, Date dateFrom, Date dateTo);
 
+    @Modifying
+    @Query(value = "update Order set orderStatus = ?2 where id = ?1")
+    void updateStatus(Long orderId, OrderStatus status);
+
     List<Order> findAllByUser(User user);
+
+    Order getOrderById(Long id);
 }
