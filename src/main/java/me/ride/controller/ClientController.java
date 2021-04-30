@@ -3,6 +3,7 @@ package me.ride.controller;
 import me.ride.entity.User;
 import me.ride.entity.client.Client;
 import me.ride.service.ClientService;
+import me.ride.service.OrderService;
 import me.ride.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,11 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -28,6 +25,9 @@ public class ClientController {
 
     @Autowired
     private ClientService clientService;
+
+    @Autowired
+    private OrderService orderService;
 
     @GetMapping("/register")
     public String registration(Model model) {
@@ -57,8 +57,40 @@ public class ClientController {
         return "redirect:/";
     }
 
-    @GetMapping()
+    @GetMapping("/profile")
     public String profileShow(Model model) {
+        model.addAttribute("user", getAuthorizedUser());
+        model.addAttribute("client", clientService.findClientByUser(getAuthorizedUser()));
+        model.addAttribute("orders", orderService.getListOfOrders(getAuthorizedUser()));
+        return "client/profile/index";
+    }
+
+    @GetMapping("/profile/edit")
+    public String editProfile(Model model) {
+        model.addAttribute("userForm", getAuthorizedUser());
+        model.addAttribute("clientForm", clientService.findClientByUser(getAuthorizedUser()));
+        return "client/profile/edit";
+    }
+
+    @PatchMapping("/profile/edit")
+    public String updateProfile(@ModelAttribute("userForm") @Valid User userForm, BindingResult bindingResult,
+                                @ModelAttribute("clientForm") @Valid Client clientForm, BindingResult bindingResult2, Model model){
+        if (bindingResult.hasErrors() || bindingResult2.hasErrors()) {
+            return "client/profile/edit";
+        }
+        User user = getAuthorizedUser();
+        Client client = clientService.findClientByUser(user);
+        clientForm.setDateOfBirth(client.getDateOfBirth());
+        clientForm.setUser(user);
+        clientForm.setId(client.getId());
+        clientForm.setDateOfBirth(client.getDateOfBirth());
+        clientForm.setPersonalNo(client.getPersonalNo());
+        clientForm.setSex(client.getSex());
+        clientService.saveClient(clientForm);
+        return "redirect:/client/profile";
+    }
+
+    private User getAuthorizedUser(){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = "";
         if (principal instanceof UserDetails) {
@@ -66,10 +98,6 @@ public class ClientController {
         } else {
             username = principal.toString();
         }
-        UserDetails user = userService.loadUserByUsername(username);
-        model.addAttribute("user", user);
-        model.addAttribute("client", clientService.findClientByUser((User) user));
-
-        return "client/profile";
+        return (User) userService.loadUserByUsername(username);
     }
 }

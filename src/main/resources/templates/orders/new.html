@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Новый заказ</title>
+    <link href="../static/css/main.css" th:href="@{/css/main.css}" rel="stylesheet" />
 </head>
 <body>
+<header th:insert="~{fragments/header :: header}"> </header>
 <form th:method="POST" th:action="@{/orders/new}">
     <p>Ваша машина: </p><a th:text="${order.getCar().getName()}"></a>
     <hr/>
@@ -21,5 +23,6 @@
     <input type="hidden" th:field="*{order.car}" id="car">
     <input type="submit" value="Сделать заказ!"/>
 </form>
+<div th:insert="~{fragments/footer :: footer}"></div>
 </body>
 </html>

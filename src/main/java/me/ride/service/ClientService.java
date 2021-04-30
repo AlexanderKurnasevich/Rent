@@ -2,9 +2,12 @@ package me.ride.service;
 
 import me.ride.entity.User;
 import me.ride.entity.client.Client;
+import me.ride.entity.system.Order;
 import me.ride.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ClientService {

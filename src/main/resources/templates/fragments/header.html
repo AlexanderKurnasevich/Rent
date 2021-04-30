@@ -1,14 +1,19 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
 <th:block th:fragment="header">
   <nav class="navbar navbar-inverse navbar-static-top">
     <div class="container">
       <div class="navbar-header">
         <a class="navbar-brand" th:href="@{/}">
-          <img th:src="@{../../static/img/logo.png}" alt="memorynotfound logo"/>
+          <img th:src="@{/img/logo.png}" alt="logo"/>
         </a>
       </div>
+      <span sec:authorize="isAnonymous()" style="display: inline-block;">
+                    <a th:href="@{/login}">Login</a>
+                    <a th:href="@{/client/register}">Sing up</a>
+                </span>
       <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
           <li class="active">

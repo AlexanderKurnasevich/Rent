@@ -3,14 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <title>Машины</title>
+  <link href="../static/css/main.css" th:href="@{/css/main.css}" rel="stylesheet" />
 </head>
 <body>
-
+<header th:insert="~{fragments/header :: header}"> </header>
 <div th:each="car : ${cars}">
   <a th:href="@{/cars/{id}(id=${car.getId()})}" th:text="${car.getName()}">user</a>
 </div>
 <br/>
 <hr/>
-
+<div th:insert="~{fragments/footer :: footer}"></div>
 </body>
 </html>

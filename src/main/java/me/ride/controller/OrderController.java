@@ -5,6 +5,7 @@ import me.ride.entity.User;
 import me.ride.entity.car.Car;
 import me.ride.exception.CarNotFoundException;
 import me.ride.service.CarService;
+import me.ride.service.MaintenanceService;
 import me.ride.service.OrderService;
 import me.ride.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -29,6 +31,9 @@ public class OrderController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private MaintenanceService maintenanceService;
+
     @GetMapping("/new")
     public String newOrder(@ModelAttribute("order") Order order, @RequestParam(value = "carId") Long carId, Model model){
         Car car = null;
@@ -44,8 +49,18 @@ public class OrderController {
     }
 
     @PostMapping("/new")
-    public String create(@ModelAttribute("order") @Valid Order order, BindingResult bindingResult, Model model){
+    public String create(@ModelAttribute("order") @Valid Order order, BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
+            return "orders/new";
+        }
+        if(order.getLastDay().before(order.getFirstDay())){
+            bindingResult.addError(new FieldError("order","lastDay","Последний день должен быть позже первого"));
+            return "orders/new";
+        }
+        boolean b1 = orderService.isOrderAllowed(order);
+        boolean b2 = maintenanceService.isCarFreeFindByOrder(order);
+        if (!orderService.isOrderAllowed(order) || !maintenanceService.isCarFreeFindByOrder(order)){
+            bindingResult.addError(new FieldError("order","lastDay","Машина занята на эти дни"));
             return "orders/new";
         }
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();

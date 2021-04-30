@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.InitBinder;
 
 import javax.persistence.*;
 import javax.validation.constraints.Future;
-import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -33,12 +32,12 @@ public class Order {
     private Car car;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @FutureOrPresent(message = "Начиная с сегодня")
+    @Future(message = "Начиная с завтра")
     @NotNull
     private Date firstDay;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @FutureOrPresent
+    @Future
     @NotNull
     private Date lastDay;
 

@@ -54,4 +54,10 @@ public class AdminController {
 
         return "admin/order_test_res";
     }
+
+    @GetMapping("/admin/users")
+    public String getUsers(Model model){
+        model.addAttribute("users", userService.allUsers());
+        return "admin/users";
+    }
 }

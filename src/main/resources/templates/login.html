@@ -6,11 +6,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Вход</title>
+    <link href="../static/css/main.css" th:href="@{/css/main.css}" rel="stylesheet" />
 </head>
 <body>
-<sec:authorize access="isAuthenticated()">
-    <p>poppy</p>
-</sec:authorize>
+<header th:insert="~{fragments/header :: header}"> </header>
 <form method="POST" action="/login">
   <h2>Вход в систему</h2>
   <div>
@@ -21,5 +20,6 @@
     <h4><a href="/client/register">Зарегистрироваться</a></h4>
   </div>
 </form>
+<div th:insert="~{fragments/footer :: footer}"></div>
 </body>
 </html>

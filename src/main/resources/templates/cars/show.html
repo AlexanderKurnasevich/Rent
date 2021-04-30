@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Машина</title>
+    <link href="../static/css/main.css" th:href="@{/css/main.css}" rel="stylesheet" />
 </head>
 <body>
+<header th:insert="~{fragments/header :: header}"> </header>
     <p>Модель: </p><a th:text="${car.getName()}"></a>
     <p>Багаж: </p><a th:text="${car.getBags()}"></a>
     <p>Дверей: </p><a th:text="${car.getDoors()}"></a>
@@ -15,7 +17,6 @@
     <hr/>
     <a th:href="@{/orders/new(carId=${id})}">Заказать!</a>
 <!--    <a th:href="@{/orders/new/{id}(id=${car.getId()})}">Заказать!</a>-->
-
+<div th:insert="~{fragments/footer :: footer}"></div>
 </body>
-
 </html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Заказы</title>
+</head>
+<body>
+<header th:insert="~{fragments/header :: header}"> </header>
+
+<p th:text="${user.username}"></p>
+<p th:text="${client.name}"></p>
+<p th:text="${client.surname}"></p>
+<p th:text="${client.dateOfBirth}"></p>
+<p th:text="${client.sex}"></p>
+<p th:text="${client.email}"></p>
+<p th:text="${client.passportNo}"></p>
+<p th:text="${client.dateOfIssue}"></p>
+<p th:text="${client.dateOfExpiry}"></p>
+<p th:text="${client.authority}"></p>
+<p th:text="${client.personalNo}"></p>
+<a href="/client/profile/edit">Измень данные</a>
+</br>
+<div>
+    <table>
+        <thead>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Первый день аренды</th>
+        <th>Последний день аренды</th>
+        <th>Машина</th>
+        <th>Статус</th>
+        </thead>
+        <div th:each="order : ${orders}">
+            <tr>
+                <td th:text="${order.getId()}"></td>
+                <td th:text="${order.getUser().getUsername()}"></td>
+                <td th:text="${order.getFirstDay()}"></td>
+                <td th:text="${order.getLastDay()}"></td>
+                <td th:text="${order.getCar().getName()}"></td>
+                <td th:text="${order.getOrderStatus().getTitle()}"></td>
+            </tr>
+        </div>
+    </table>
+</div>
+<div th:insert="~{fragments/footer :: footer}"></div>
+</body>
+</html>

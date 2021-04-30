@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>New car</title>
+    <link href="../static/css/main.css" th:href="@{/css/main.css}" rel="stylesheet" />
 </head>
 <body>
+<header th:insert="~{fragments/header :: header}"> </header>
 <form th:method="POST" th:action="@{/cars}" th:object="${car}">
     <label for="name">Модель: </label>
     <input type="text" th:field="*{name}" id="name"/>
@@ -23,5 +25,6 @@
     <br/>
     <input type="submit" value="Create!"/>
 </form>
+<div th:insert="~{fragments/footer :: footer}"></div>
 </body>
 </html>
