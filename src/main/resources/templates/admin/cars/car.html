@@ -2,17 +2,16 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head>
   <meta charset="UTF-8">
-  <title>Машины</title>
+  <title>Car</title>
   <link href="../static/css/main.css" th:href="@{/css/main.css}" rel="stylesheet" />
 </head>
 <body>
 <header th:insert="~{fragments/header :: header}"> </header>
-<div th:each="car : ${cars}">
-  <a th:href="@{/cars/{id}(id=${car.getId()})}" th:text="${car.getName()}">user</a>
-</div>
-<br/>
-<hr/>
-<a href="/cars/search/date">Подобрать машину по интервалу дат</a>
+<p>Модель: </p><a th:text="${car.getName()}"></a>
+<p>Багаж: </p><a th:text="${car.getBags()}"></a>
+<p>Дверей: </p><a th:text="${car.getDoors()}"></a>
+<p>Пассажиров: </p><a th:text="${car.getPassengers()}"></a>
+<p>Тип: </p><a th:text="${car.getCarType()}"></a>
 <div th:insert="~{fragments/footer :: footer}"></div>
 </body>
 </html>

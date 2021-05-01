@@ -9,6 +9,7 @@
     <header th:insert="~{fragments/header :: header}"> </header>
     <h1>Main page</h1>
     <a href="/cars">Машины</a>
+    <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin}">ADMIN</a>
     <div th:insert="~{fragments/footer :: footer}"></div>
 </body>
 </html>

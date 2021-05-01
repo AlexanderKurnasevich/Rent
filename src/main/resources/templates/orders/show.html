@@ -12,7 +12,6 @@
 <p>Последний день:</p><p th:text="${order.getLastDay()}"></p>
 <p>Машина:</p><p th:text="${order.getCar().getName()}"></p>
 <p>Статус:</p><p th:text="${order.getOrderStatus().getTitle()}"></p>
-<!--<p>Сообщение:</p><p th:text="${note?.message}"></p>-->
 <div th:switch="${order.getOrderStatus()}">
     <div th:case="${T(me.ride.entity.system.OrderStatus).REFUSED}"><p >Сообщение:</p>
         <p th:text="${note?.message}"></p></div>

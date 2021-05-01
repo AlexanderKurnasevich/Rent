@@ -8,11 +8,9 @@
 <body>
 <header th:insert="~{fragments/header :: header}"> </header>
 <div th:each="car : ${cars}">
-  <a th:href="@{/cars/{id}(id=${car.getId()})}" th:text="${car.getName()}">user</a>
+  <p th:text="${car.getName()}"></p>
+  <a th:href="@{/admin/cars/{id}(id=${car.getId()})}">Подробнее</a>
 </div>
-<br/>
-<hr/>
-<a href="/cars/search/date">Подобрать машину по интервалу дат</a>
 <div th:insert="~{fragments/footer :: footer}"></div>
 </body>
 </html>
