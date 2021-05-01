@@ -13,5 +13,8 @@
 <p>Пассажиров: </p><a th:text="${car.getPassengers()}"></a>
 <p>Тип: </p><a th:text="${car.getCarType()}"></a>
 <div th:insert="~{fragments/footer :: footer}"></div>
+<br/>
+<hr/>
+<a th:href="@{/admin/cars/maintenance/{carId}(carId=${id})}">Оформить тех.обслуживание</a>
 </body>
 </html>

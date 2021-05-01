@@ -13,12 +13,19 @@
 <p>Машина</p><p th:text="${order.getCar().getName()}"></p>
 <p>Статус</p><p th:text="${order.getOrderStatus().getTitle()}"></p>
 <br/>
-<form th:action="@{/admin/order}" th:method="PATCH">
+<form th:action="@{/admin/orders}" th:method="PATCH">
     <input type="hidden" name="orderId" th:value="${order.getId()}"/>
     <input type="hidden" name="action" value="accept" />
     <button type="submit">Одобрить</button>
 </form>
-<form th:action="@{/admin/order}" th:method="PATCH">
+<form th:action="@{/admin/orders}" th:method="PATCH">
+    <input type="hidden" name="orderId" th:value="${order.getId()}"/>
+    <div>Машина не повреждена</div><input type="radio" name="action" value="return" checked>
+    <div>Машина повреждена</div><input type="radio" name="action" value="damaged">
+    <div>Сумма повреждений</div><input type="number" step="0.01" min=0.01 name="damage">
+    <button type="submit">Зафиксировать возврат</button>
+</form>
+<form th:action="@{/admin/orders}" th:method="PATCH">
     <input type="hidden" name="orderId" th:value="${order.getId()}"/>
     <input type="hidden" name="action" value="refuse"/>
     <p><b>Сообщение, если требуется:</b></p>

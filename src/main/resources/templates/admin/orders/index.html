@@ -25,11 +25,12 @@
                 <td th:text="${order.getLastDay()}"></td>
                 <td th:text="${order.getCar().getName()}"></td>
                 <td th:text="${order.getOrderStatus().getTitle()}"></td>
-                <td><a th:href="@{/admin/order/{orderId}(orderId=${order.getId()})}">Обработать</a></td>
+                <td><a th:href="@{/admin/orders/{orderId}(orderId=${order.getId()})}">Обработать</a></td>
             </tr>
         </div>
     </table>
 </div>
+<a th:href="@{/admin/orders/filter}">Фильтровать</a>
 <div th:insert="~{fragments/footer :: footer}"></div>
 </body>
 </html>

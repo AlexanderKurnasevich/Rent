@@ -2,11 +2,13 @@ package me.ride.service;
 
 import me.ride.entity.User;
 import me.ride.entity.car.Car;
+import me.ride.entity.system.Damage;
 import me.ride.entity.system.Order;
 import me.ride.entity.system.OrderStatus;
 import me.ride.entity.system.RefuseNote;
 import me.ride.exception.CarNotFoundException;
 import me.ride.exception.OrderNotFoundException;
+import me.ride.repository.DamageRepository;
 import me.ride.repository.OrderRepository;
 import me.ride.repository.RefuseNoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -24,6 +27,9 @@ public class OrderService {
 
     @Autowired
     private RefuseNoteRepository refuseNoteRepository;
+
+    @Autowired
+    private DamageRepository damageRepository;
 
     public void save(Order order){
         orderRepository.save(order);
@@ -58,6 +64,10 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
+    public List<Order> getListOfOrdersDateBetween(Date date1, Date date2){
+        return orderRepository.findOrdersByFirstDayBetweenOrLastDayBetween(date1, date2);
+    }
+
     public void processOrder(Long id, OrderStatus orderStatus) throws OrderNotFoundException {
         Order order = show(id);
         order.setOrderStatus(orderStatus);
@@ -77,10 +87,15 @@ public class OrderService {
     }
 
     public boolean isOrderAllowed(Order order){
-        System.out.println(order.getCar().getId());
-        System.out.println(order.getFirstDay());
-        System.out.println(order.getLastDay());
-        System.out.println(orderRepository.findOrderByCarBetween(order.getCar().getId(), order.getFirstDay(), order.getLastDay()));
+//        System.out.println(order.getCar().getId());
+//        System.out.println(order.getFirstDay());
+//        System.out.println(order.getLastDay());
+//        System.out.println(orderRepository.findOrderByCarBetween(order.getCar().getId(), order.getFirstDay(), order.getLastDay()));
         return orderRepository.findOrderByCarBetween(order.getCar().getId(), order.getFirstDay(), order.getLastDay()).size() == 0;
     }
+
+    public void saveDamage(Damage damage){
+        damageRepository.save(damage);
+    }
+
 }

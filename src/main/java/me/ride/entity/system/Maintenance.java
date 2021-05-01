@@ -28,4 +28,13 @@ public class Maintenance {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @FutureOrPresent
     private Date lastDay;
+
+    public Maintenance() {
+    }
+
+    public Maintenance(Car car, Date firstDay, Date lastDay) {
+        this.car = car;
+        this.firstDay = firstDay;
+        this.lastDay = lastDay;
+    }
 }
