@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Поиск по дате</title>
+</head>
+<body>
+<header th:insert="~{fragments/header :: header}"> </header>
+<form th:method="POST" th:action="@{/cars/search/date}">
+    <p>Заполните форму:</p>
+    <hr/>
+    <label for="firstDay">Первый день аредны: </label>
+    <input type="date" th:field="${order.firstDay}" id="firstDay"/>
+    <div style="color: red" th:if="${#fields.hasErrors('order.firstDay')}" th:errors="*{order.firstDay}">date error</div>
+    <br/>
+    <label for="lastDay">Последний день аренды: </label>
+    <input type="date" th:field="${order.lastDay}" id="lastDay"/>
+    <div style="color: red" th:if="${#fields.hasErrors('order.lastDay')}" th:errors="*{order.lastDay}">date error</div>
+    <br/>
+    <input type="submit" value="Найти!"/>
+</form>
+<div th:insert="~{fragments/footer :: footer}"></div>
+</body>
+</html>

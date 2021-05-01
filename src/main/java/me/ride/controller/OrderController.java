@@ -3,7 +3,10 @@ package me.ride.controller;
 import me.ride.entity.system.Order;
 import me.ride.entity.User;
 import me.ride.entity.car.Car;
+import me.ride.entity.system.OrderStatus;
+import me.ride.entity.system.RefuseNote;
 import me.ride.exception.CarNotFoundException;
+import me.ride.exception.OrderNotFoundException;
 import me.ride.service.CarService;
 import me.ride.service.MaintenanceService;
 import me.ride.service.OrderService;
@@ -74,5 +77,53 @@ public class OrderController {
         order.setUser((User) user);
         orderService.save(order);
         return "redirect:/cars";
+    }
+
+    @GetMapping("/{id}")
+    public String show(@PathVariable("id") Long id, Model model){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = "";
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails) principal).getUsername();
+        } else {
+            username = principal.toString();
+        }
+        User user = (User) userService.loadUserByUsername(username);
+        Order order = null;
+        try {
+            order = orderService.show(id);
+        } catch (OrderNotFoundException throwables) {
+            throwables.printStackTrace();
+            return "redirect:/client/profile";
+        }
+        if(!user.equals(order.getUser())){
+            return "/403";
+        }
+        model.addAttribute("order", order);
+        try {
+            model.addAttribute("note", orderService.findRefuseNote(order));
+        } catch (Throwable throwable){
+            return "orders/show";
+        }
+        return "orders/show";
+    }
+
+    @GetMapping("/pay/{id}")
+    public String payPage(@PathVariable("id") Long id, Model model) {
+        Order order = null;
+        try {
+            order = orderService.show(id);
+        } catch (OrderNotFoundException throwables) {
+            throwables.printStackTrace();
+            return "redirect:/client/profile";
+        }
+        model.addAttribute("order", order);
+        return "orders/pay/pay";
+    }
+
+    @PostMapping("/pay")
+    public String payProcess(@ModelAttribute("order") Order order) {
+        orderService.updateStatus(order.getId(), OrderStatus.PAID);
+        return "redirect:/client/profile";
     }
 }

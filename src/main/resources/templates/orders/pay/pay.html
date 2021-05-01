@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Оплата</title>
+</head>
+<body>
+<header th:insert="~{fragments/header :: header}"> </header>
+<p th:text="${order.id}"></p>
+<form th:method="POST" th:action="@{/orders/pay}">
+    <input type="hidden" th:field="*{order.id}" id="car">
+    <input type="submit" value="Оплатить"/>
+</form>
+<div th:insert="~{fragments/footer :: footer}"></div>
+</body>
+</html>

@@ -35,6 +35,7 @@
         <td th:text="${order.getFirstDay()}"></td>
         <td th:text="${order.getLastDay()}"></td>
         <td th:text="${order.getOrderStatus().getTitle()}"></td>
+        <td><a th:href="@{/orders/{id}(id=${order.getId()})}">Подробнее</a></td>
       </tr>
     </div>
   </table>

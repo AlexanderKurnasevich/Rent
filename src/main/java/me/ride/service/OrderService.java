@@ -33,6 +33,10 @@ public class OrderService {
         refuseNoteRepository.save(new RefuseNote(orderRepository.getOrderById(orderId), message));
     }
 
+    public RefuseNote findRefuseNote(Order order){
+        return refuseNoteRepository.findRefuseNoteByOrder(order);
+    }
+
     @Transactional
     public void updateStatus(Long orderId, OrderStatus status){  //если не найду как вырубить валидатор
         orderRepository.updateStatus(orderId, status);

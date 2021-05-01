@@ -6,6 +6,7 @@ import me.ride.exception.CarNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -30,5 +31,9 @@ public class CarService {
 
     public void save(Car car) {
         carRepository.save(car);
+    }
+
+    public List<Car> findAvailableCarsBetween(Date firstDay, Date lastDay) {
+        return carRepository.findAvailableCarsBetween(firstDay, lastDay);
     }
 }

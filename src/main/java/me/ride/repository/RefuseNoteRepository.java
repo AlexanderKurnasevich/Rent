@@ -5,4 +5,6 @@ import me.ride.entity.system.RefuseNote;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RefuseNoteRepository extends JpaRepository<RefuseNote, Long> {
+
+    RefuseNote findRefuseNoteByOrder(Order order);
 }
