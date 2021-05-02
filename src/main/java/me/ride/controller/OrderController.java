@@ -4,7 +4,6 @@ import me.ride.entity.system.Order;
 import me.ride.entity.User;
 import me.ride.entity.car.Car;
 import me.ride.entity.system.OrderStatus;
-import me.ride.entity.system.RefuseNote;
 import me.ride.exception.CarNotFoundException;
 import me.ride.exception.OrderNotFoundException;
 import me.ride.service.CarService;
@@ -60,9 +59,8 @@ public class OrderController {
             bindingResult.addError(new FieldError("order","lastDay","Последний день должен быть позже первого"));
             return "orders/new";
         }
-        boolean b1 = orderService.isOrderAllowed(order);
-        boolean b2 = maintenanceService.isCarFreeFindByOrder(order);
-        if (!orderService.isOrderAllowed(order) || !maintenanceService.isCarFreeFindByOrder(order)){
+        if (!orderService.isCarFreeByOrders(order.getCar().getId(), order.getFirstDay(), order.getLastDay())
+                || !maintenanceService.isCarFreeByMaintenance(order.getCar().getId(), order.getFirstDay(), order.getLastDay())){
             bindingResult.addError(new FieldError("order","lastDay","Машина занята на эти дни"));
             return "orders/new";
         }

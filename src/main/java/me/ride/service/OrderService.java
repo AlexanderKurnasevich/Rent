@@ -86,12 +86,12 @@ public class OrderService {
         save(order);
     }
 
-    public boolean isOrderAllowed(Order order){
+    public boolean isCarFreeByOrders(Long carId, Date dateFrom, Date dateTo){
 //        System.out.println(order.getCar().getId());
 //        System.out.println(order.getFirstDay());
 //        System.out.println(order.getLastDay());
 //        System.out.println(orderRepository.findOrderByCarBetween(order.getCar().getId(), order.getFirstDay(), order.getLastDay()));
-        return orderRepository.findOrderByCarBetween(order.getCar().getId(), order.getFirstDay(), order.getLastDay()).size() == 0;
+        return orderRepository.findOrderByCarBetween(carId, dateFrom, dateTo).isEmpty();
     }
 
     public void saveDamage(Damage damage){

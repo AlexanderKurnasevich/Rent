@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Maintenance</title>
+</head>
+<body>
+<header th:insert="~{fragments/header :: header}"> </header>
+<p>Id: </p>
+<p th:text="${maintenance.getId()}"></p>
+<p>Машина: </p>
+<p th:text="${maintenance.getCar().getName()}"></p>
+<br/>
+<form th:method="PATCH" th:action="@{/admin/cars/maintenances}">
+  <label for="firstDay">Первый день: </label>
+  <input type="date" th:field="*{maintenance.firstDay}" id="firstDay" required/>
+  <div style="color: red" th:if="${#fields.hasErrors('maintenance.firstDay')}" th:errors="*{maintenance.firstDay}">firstDay error</div>
+  <br/>
+  <label for="lastDay">Последний день: </label>
+  <input type="date" th:field="*{maintenance.lastDay}" id="lastDay" required/>
+  <div style="color: red" th:if="${#fields.hasErrors('maintenance.lastDay')}" th:errors="*{maintenance.lastDay}">dateOfExpiry error</div>
+  <br/>
+  <input type="hidden" th:field="*{maintenance.id}" id="id" required/>
+  <input type="hidden" th:field="*{maintenance.car}" id="car" required/>
+  <input type="submit" value="Изменить"/>
+</form>
+<div th:insert="~{fragments/footer :: footer}"></div>
+</body>
+</html>

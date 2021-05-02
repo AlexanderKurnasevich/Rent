@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import me.ride.entity.car.Car;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
 import javax.validation.constraints.FutureOrPresent;
@@ -22,9 +23,11 @@ public class Maintenance {
     @OneToOne
     private Car car;
 
+    @NonNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date firstDay;
 
+    @NonNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @FutureOrPresent
     private Date lastDay;

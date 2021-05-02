@@ -3,7 +3,6 @@ package me.ride.controller;
 import me.ride.entity.car.Car;
 import me.ride.entity.system.Damage;
 import me.ride.entity.system.Maintenance;
-import me.ride.entity.system.Order;
 import me.ride.entity.system.OrderStatus;
 import me.ride.exception.CarNotFoundException;
 import me.ride.exception.OrderNotFoundException;
@@ -22,6 +21,7 @@ import javax.validation.Valid;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 public class AdminController {
@@ -57,15 +57,8 @@ public class AdminController {
     public String filterOrder(@RequestParam(defaultValue = "") String date1,
                               @RequestParam(defaultValue = "") String date2,
                               Model model) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Date parsedDate1 = null;
-        Date parsedDate2 = null;
-        try {
-            parsedDate1 = format.parse(date1);
-            parsedDate2 = format.parse(date2);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        Date parsedDate1 = parseStringToDate(date1);
+        Date parsedDate2 = parseStringToDate(date2);
         model.addAttribute("orders", orderService.getListOfOrdersDateBetween(parsedDate1, parsedDate2));
         return "admin/orders/index";
     }
@@ -124,11 +117,29 @@ public class AdminController {
     }
 
     @GetMapping("/admin/cars/{id}")
-    public String show(@PathVariable("id") Long id, Model model) {
+    public String carShow(@PathVariable("id") Long id, Model model) {
         Car car = getCar(id);
         if (car == null) return "redirect:/admin/cars";
         model.addAttribute("car", car);
         return "admin/cars/car";
+    }
+
+    @GetMapping("/admin/cars/maintenances")
+    public String maintenancesShow(Model model){
+        model.addAttribute("maintenances", maintenanceService.getMaintenanceList());
+        return "admin/cars/maintenances";
+    }
+
+    @GetMapping("/admin/cars/maintenances/{id}")
+    public String maintenanceShow(@PathVariable("id") Long id, Model model){
+        model.addAttribute("maintenance", maintenanceService.findMaintenanceById(id));
+        return "admin/cars/maintenance";
+    }
+
+    @PatchMapping("/admin/cars/maintenances")
+    public String maintenanceEdit(@ModelAttribute("maintenance") Maintenance maintenance) {
+        maintenanceService.save(maintenance);
+        return "redirect:/admin/maintenances";
     }
 
     @GetMapping("/admin/cars/maintenance/{id}")
@@ -150,7 +161,24 @@ public class AdminController {
             bindingResult.addError(new FieldError("maintenance","lastDay","Последний день должен быть позже первого"));
             return "admin/cars/maintenance_form";
         }
-        maintenanceService.
+        if (!orderService.isCarFreeByOrders(maintenance.getCar().getId(), maintenance.getFirstDay(), maintenance.getLastDay())
+                || !maintenanceService.isCarFreeByMaintenance(maintenance.getCar().getId(), maintenance.getFirstDay(), maintenance.getLastDay())){
+            bindingResult.addError(new FieldError("maintenance","lastDay","Машина занята на эти дни"));
+            return "admin/cars/maintenance_form";
+        }
+        maintenanceService.save(maintenance);
+        return "redirect:/admin/cars";
+    }
+
+    private Date parseStringToDate(String date1) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date parsedDate1 = null;
+        try {
+            parsedDate1 = format.parse(date1);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return parsedDate1;
     }
 
     private Car getCar(Long id) {

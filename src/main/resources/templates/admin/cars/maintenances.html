@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Обслуживание</title>
+</head>
+<body>
+<header th:insert="~{fragments/header :: header}"> </header>
+<div th:each="maintenance : ${maintenances}">
+  <p th:text="${maintenance.getId()}"></p>
+  <p th:text="${maintenance.getCar().getName()}"></p>
+  <p th:text="${maintenance.getFirstDay()}"></p>
+  <p th:text="${maintenance.getLastDay()}"></p>
+  <a th:href="@{/admin/cars/maintenances/{id}(id=${maintenance.getId()})}">Подробнее</a>
+</div>
+<div th:insert="~{fragments/footer :: footer}"></div>
+</body>
+</html>
