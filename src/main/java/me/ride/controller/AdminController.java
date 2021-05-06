@@ -4,12 +4,10 @@ import me.ride.entity.car.Car;
 import me.ride.entity.system.Damage;
 import me.ride.entity.system.Maintenance;
 import me.ride.entity.system.OrderStatus;
+import me.ride.entity.system.RentPrice;
 import me.ride.exception.CarNotFoundException;
 import me.ride.exception.OrderNotFoundException;
-import me.ride.service.CarService;
-import me.ride.service.MaintenanceService;
-import me.ride.service.OrderService;
-import me.ride.service.UserService;
+import me.ride.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,6 +34,9 @@ public class AdminController {
 
     @Autowired
     private MaintenanceService maintenanceService;
+
+    @Autowired
+    private PriceService priceService;
 
     @GetMapping("/admin")
     public String adminPage(Model model) {
@@ -121,7 +122,17 @@ public class AdminController {
         Car car = getCar(id);
         if (car == null) return "redirect:/admin/cars";
         model.addAttribute("car", car);
+        model.addAttribute("price", priceService.getRentPriceByCar(car));
         return "admin/cars/car";
+    }
+
+    @PatchMapping("/admin/prices/edit")
+    public String setPrice(@ModelAttribute("price") @Valid RentPrice rentPrice, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "admin/cars/car";
+        }
+        priceService.save(rentPrice);
+        return "redirect:/admin/cars/"+rentPrice.getCar().getId();
     }
 
     @GetMapping("/admin/cars/maintenances")

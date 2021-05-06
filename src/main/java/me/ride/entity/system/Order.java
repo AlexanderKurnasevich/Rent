@@ -44,16 +44,19 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
+    private Double price;
+
     public Order() {
         orderStatus = OrderStatus.UNDER_CONSIDERATION;
     }
 
-    public Order(Long id, User user, Car car, Date firstDay, Date lastDay) {
+    public Order(Long id, User user, Car car, Date firstDay, Date lastDay, Double price) {
         this.id = id;
         this.user = user;
         this.car = car;
         this.firstDay = firstDay;
         this.lastDay = lastDay;
+        this.price = price;
         orderStatus = OrderStatus.UNDER_CONSIDERATION;
     }
 

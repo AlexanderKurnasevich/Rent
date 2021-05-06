@@ -6,10 +6,7 @@ import me.ride.entity.car.Car;
 import me.ride.entity.system.OrderStatus;
 import me.ride.exception.CarNotFoundException;
 import me.ride.exception.OrderNotFoundException;
-import me.ride.service.CarService;
-import me.ride.service.MaintenanceService;
-import me.ride.service.OrderService;
-import me.ride.service.UserService;
+import me.ride.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,6 +32,9 @@ public class OrderController {
 
     @Autowired
     private MaintenanceService maintenanceService;
+
+    @Autowired
+    private PriceService priceService;
 
     @GetMapping("/new")
     public String newOrder(@ModelAttribute("order") Order order, @RequestParam(value = "carId") Long carId, Model model){
@@ -73,6 +73,7 @@ public class OrderController {
         }
         UserDetails user = userService.loadUserByUsername(username);
         order.setUser((User) user);
+        order.setPrice(priceService.getPrice(order.getCar(), order.getFirstDay(), order.getLastDay()));
         orderService.save(order);
         return "redirect:/cars";
     }

@@ -6,13 +6,30 @@
 </head>
 <body>
 <header th:insert="~{fragments/header :: header}"> </header>
-<div th:each="maintenance : ${maintenances}">
-  <p th:text="${maintenance.getId()}"></p>
-  <p th:text="${maintenance.getCar().getName()}"></p>
-  <p th:text="${maintenance.getFirstDay()}"></p>
-  <p th:text="${maintenance.getLastDay()}"></p>
-  <a th:href="@{/admin/cars/maintenances/{id}(id=${maintenance.getId()})}">Подробнее</a>
-</div>
+<!--<div th:each="maintenance : ${maintenances}">-->
+<!--  <p th:text="${maintenance.getId()}"></p>-->
+<!--  <p th:text="${maintenance.getCar().getName()}"></p>-->
+<!--  <p th:text="${maintenance.getFirstDay()}"></p>-->
+<!--  <p th:text="${maintenance.getLastDay()}"></p>-->
+<!--  <a th:href="@{/admin/cars/maintenances/{id}(id=${maintenance.getId()})}">Подробнее</a>-->
+<!--</div>-->
+<table>
+    <thead>
+    <th>ID</th>
+    <th>Машина</th>
+    <th>Первый день обслуживания</th>
+    <th>Последний день обслуживания</th>
+    </thead>
+    <div th:each="maintenance : ${maintenances}">
+        <tr>
+            <td th:text="${maintenance.getId()}"></td>
+            <td th:text="${maintenance.getCar().getName()}"></td>
+            <td th:text="${maintenance.getFirstDay()}"></td>
+            <td th:text="${maintenance.getLastDay()}"></td>
+            <td><a th:href="@{/admin/cars/maintenances/{id}(id=${maintenance.getId()})}">Подробнее</a></td>
+        </tr>
+    </div>
+</table>
 <div th:insert="~{fragments/footer :: footer}"></div>
 </body>
 </html>

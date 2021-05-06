@@ -12,6 +12,15 @@
 <p>Дверей: </p><a th:text="${car.getDoors()}"></a>
 <p>Пассажиров: </p><a th:text="${car.getPassengers()}"></a>
 <p>Тип: </p><a th:text="${car.getCarType()}"></a>
+<form th:method="PATCH" th:action="@{/admin/prices/edit}">
+  <label for="surname">Цена в день: </label>
+  <input type="hidden" th:field="*{price.car}" id="car">
+  <input type="hidden" th:field="*{price.id}" id="priceId">
+  <input type="number" step=0.01 min=0 th:field="*{price.pricePerDay}" id="surname" required/>
+  <div style="color: red" th:if="${#fields.hasErrors('price.pricePerDay')}" th:errors="*{price.pricePerDay}">surname error</div>
+  <br/>
+  <input type="submit" value="Изменить"/>
+</form>
 <div th:insert="~{fragments/footer :: footer}"></div>
 <br/>
 <hr/>

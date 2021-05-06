@@ -11,6 +11,7 @@
 <p>Первый день:</p><p th:text="${order.getFirstDay()}"></p>
 <p>Последний день:</p><p th:text="${order.getLastDay()}"></p>
 <p>Машина:</p><p th:text="${order.getCar().getName()}"></p>
+<p>Стоимость:</p><p th:text="${order.getPrice()}"></p>
 <p>Статус:</p><p th:text="${order.getOrderStatus().getTitle()}"></p>
 <div th:switch="${order.getOrderStatus()}">
     <div th:case="${T(me.ride.entity.system.OrderStatus).REFUSED}"><p >Сообщение:</p>
