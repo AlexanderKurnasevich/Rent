@@ -26,8 +26,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     Order getOrderById(Long id);
 
-    //@Query(value = "select * from t_order where first_day between ?1 and ?2", nativeQuery = true)
-    //List<Order> findOrdersByFirstDayBetween(Date dateFrom, Date dateTo);
     @Query(value = "select * from t_order where first_day between ?1 and ?2 or last_day between ?1 and ?2", nativeQuery = true)
     List<Order> findOrdersByFirstDayBetweenOrLastDayBetween(Date dateFrom, Date dateTo);
 }

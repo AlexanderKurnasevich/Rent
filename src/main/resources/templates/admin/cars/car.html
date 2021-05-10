@@ -12,7 +12,7 @@
 <p>Дверей: </p><a th:text="${car.getDoors()}"></a>
 <p>Пассажиров: </p><a th:text="${car.getPassengers()}"></a>
 <p>Тип: </p><a th:text="${car.getCarType()}"></a>
-<form th:method="PATCH" th:action="@{/admin/prices/edit}">
+<form th:method="POST" th:action="@{/admin/prices/edit}">
   <label for="surname">Цена в день: </label>
   <input type="hidden" th:field="*{price.car}" id="car">
   <input type="hidden" th:field="*{price.id}" id="priceId">

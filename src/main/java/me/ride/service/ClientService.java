@@ -26,4 +26,15 @@ public class ClientService {
         return clientRepository.findClientByUserId(user.getId());
     }
 
+    public void updateProfile(User userForm, Client clientForm) {
+        User user = userService.getAuthorizedUser();
+        Client client = findClientByUser(user);
+        clientForm.setDateOfBirth(client.getDateOfBirth());
+        clientForm.setUser(user);
+        clientForm.setId(client.getId());
+        clientForm.setDateOfBirth(client.getDateOfBirth());
+        clientForm.setPersonalNo(client.getPersonalNo());
+        clientForm.setSex(client.getSex());
+        saveClient(clientForm);
+    }
 }

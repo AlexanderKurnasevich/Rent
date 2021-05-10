@@ -11,7 +11,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 @RequestMapping("/cars")
@@ -27,16 +26,14 @@ public class CarsController {
     }
 
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") Long id, Model model){
-        Car car = null;
-        try {
-            car = carService.show(id);
-        } catch (CarNotFoundException throwables) {
-            throwables.printStackTrace();
-            return "redirect:/cars";
-        }
-        model.addAttribute("car", car);
+    public String show(@PathVariable("id") Long id, Model model) throws CarNotFoundException {
+        model.addAttribute("car", carService.getCarById(id));
         return "cars/show";
+    }
+
+    @ExceptionHandler(CarNotFoundException.class)
+    public String handleException(CarNotFoundException ex){
+        return "redirect:/cars";
     }
 
     @GetMapping("/new")

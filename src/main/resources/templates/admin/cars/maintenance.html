@@ -11,7 +11,7 @@
 <p>Машина: </p>
 <p th:text="${maintenance.getCar().getName()}"></p>
 <br/>
-<form th:method="PATCH" th:action="@{/admin/cars/maintenances}">
+<form th:method="POST" th:action="@{/admin/cars/maintenances}">
   <label for="firstDay">Первый день: </label>
   <input type="date" th:field="*{maintenance.firstDay}" id="firstDay" required/>
   <div style="color: red" th:if="${#fields.hasErrors('maintenance.firstDay')}" th:errors="*{maintenance.firstDay}">firstDay error</div>

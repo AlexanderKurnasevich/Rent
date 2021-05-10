@@ -7,7 +7,7 @@
 </head>
 <body>
 <header th:insert="~{fragments/header :: header}"> </header>
-<form th:method="PATCH" th:action="@{/client/profile/edit}">
+<form th:method="POST" th:action="@{/client/profile/edit}">
     <label for="surname">Фамилия: </label>
     <input type="text" th:field="*{clientForm.surname}" id="surname" required/>
     <div style="color: red" th:if="${#fields.hasErrors('clientForm.surname')}" th:errors="*{clientForm.surname}">surname error</div>

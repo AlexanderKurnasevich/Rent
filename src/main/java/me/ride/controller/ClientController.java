@@ -33,12 +33,11 @@ public class ClientController {
     public String registration(Model model) {
         model.addAttribute("userForm", new User());
         model.addAttribute("clientForm", new Client());
-
         return "client/register";
     }
 
     @PostMapping("/register")
-    public String addUser(@ModelAttribute("userForm") @Valid User userForm, BindingResult bindingResult,
+    public String addClient(@ModelAttribute("userForm") @Valid User userForm, BindingResult bindingResult,
                           @ModelAttribute("clientForm") @Valid Client clientForm, BindingResult bindingResult2, Model model) {
 
         if (bindingResult.hasErrors() || bindingResult2.hasErrors()) {
@@ -59,45 +58,26 @@ public class ClientController {
 
     @GetMapping("/profile")
     public String profileShow(Model model) {
-        model.addAttribute("user", getAuthorizedUser());
-        model.addAttribute("client", clientService.findClientByUser(getAuthorizedUser()));
-        model.addAttribute("orders", orderService.getListOfOrders(getAuthorizedUser()));
+        model.addAttribute("user", userService.getAuthorizedUser());
+        model.addAttribute("client", clientService.findClientByUser(userService.getAuthorizedUser()));
+        model.addAttribute("orders", orderService.getListOfOrders(userService.getAuthorizedUser()));
         return "client/profile/index";
     }
 
     @GetMapping("/profile/edit")
     public String editProfile(Model model) {
-        model.addAttribute("userForm", getAuthorizedUser());
-        model.addAttribute("clientForm", clientService.findClientByUser(getAuthorizedUser()));
+        model.addAttribute("userForm", userService.getAuthorizedUser());
+        model.addAttribute("clientForm", clientService.findClientByUser(userService.getAuthorizedUser()));
         return "client/profile/edit";
     }
 
-    @PatchMapping("/profile/edit")
+    @PostMapping("/profile/edit")
     public String updateProfile(@ModelAttribute("userForm") @Valid User userForm, BindingResult bindingResult,
                                 @ModelAttribute("clientForm") @Valid Client clientForm, BindingResult bindingResult2, Model model){
         if (bindingResult.hasErrors() || bindingResult2.hasErrors()) {
             return "client/profile/edit";
         }
-        User user = getAuthorizedUser();
-        Client client = clientService.findClientByUser(user);
-        clientForm.setDateOfBirth(client.getDateOfBirth());
-        clientForm.setUser(user);
-        clientForm.setId(client.getId());
-        clientForm.setDateOfBirth(client.getDateOfBirth());
-        clientForm.setPersonalNo(client.getPersonalNo());
-        clientForm.setSex(client.getSex());
-        clientService.saveClient(clientForm);
+        clientService.updateProfile(userForm, clientForm);
         return "redirect:/client/profile";
-    }
-
-    private User getAuthorizedUser(){
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = "";
-        if (principal instanceof UserDetails) {
-            username = ((UserDetails) principal).getUsername();
-        } else {
-            username = principal.toString();
-        }
-        return (User) userService.loadUserByUsername(username);
     }
 }

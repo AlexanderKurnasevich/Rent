@@ -5,6 +5,7 @@ import me.ride.entity.User;
 import me.ride.repository.RoleRepository;
 import me.ride.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -37,6 +38,17 @@ public class UserService implements UserDetailsService {
         }
 
         return user;
+    }
+
+    public User getAuthorizedUser() throws UsernameNotFoundException{
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = "";
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails) principal).getUsername();
+        } else {
+            username = principal.toString();
+        }
+        return (User) loadUserByUsername(username);
     }
 
     public User findUserById(Long userId) {

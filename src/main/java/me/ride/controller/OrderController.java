@@ -10,6 +10,7 @@ import me.ride.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -37,17 +38,16 @@ public class OrderController {
     private PriceService priceService;
 
     @GetMapping("/new")
-    public String newOrder(@ModelAttribute("order") Order order, @RequestParam(value = "carId") Long carId, Model model){
-        Car car = null;
-        try {
-            car = carService.show(carId);
-        } catch (CarNotFoundException throwable) {
-            throwable.printStackTrace();
-            return "redirect:/cars";
-        }
+    public String newOrder(@ModelAttribute("order") Order order, @RequestParam(value = "carId") Long carId, Model model) throws CarNotFoundException {
+        Car car = carService.getCarById(carId);
         model.addAttribute("car", car);
         order.setCar(car);
         return "orders/new";
+    }
+
+    @ExceptionHandler(CarNotFoundException.class)
+    public String handleException(CarNotFoundException ex){
+        return "redirect:/cars";
     }
 
     @PostMapping("/new")
@@ -64,58 +64,37 @@ public class OrderController {
             bindingResult.addError(new FieldError("order","lastDay","Машина занята на эти дни"));
             return "orders/new";
         }
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = "";
-        if (principal instanceof UserDetails) {
-            username = ((UserDetails)principal).getUsername();
-        } else {
-            username = principal.toString();
-        }
-        UserDetails user = userService.loadUserByUsername(username);
-        order.setUser((User) user);
+        order.setUser(userService.getAuthorizedUser());
         order.setPrice(priceService.getPrice(order.getCar(), order.getFirstDay(), order.getLastDay()));
         orderService.save(order);
         return "redirect:/cars";
     }
 
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public String handleException(UsernameNotFoundException ex){
+        return "redirect:/orders";
+    }
+
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") Long id, Model model){
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = "";
-        if (principal instanceof UserDetails) {
-            username = ((UserDetails) principal).getUsername();
-        } else {
-            username = principal.toString();
-        }
-        User user = (User) userService.loadUserByUsername(username);
-        Order order = null;
-        try {
-            order = orderService.show(id);
-        } catch (OrderNotFoundException throwables) {
-            throwables.printStackTrace();
-            return "redirect:/client/profile";
-        }
+    public String show(@PathVariable("id") Long id, Model model) throws OrderNotFoundException { //вынести в service
+        User user = userService.getAuthorizedUser();
+        Order order = orderService.show(id);
         if(!user.equals(order.getUser())){
             return "/403";
         }
         model.addAttribute("order", order);
-        try {
-            model.addAttribute("note", orderService.findRefuseNote(order));
-        } catch (Throwable throwable){
-            return "orders/show";
-        }
+        model.addAttribute("note", orderService.findRefuseNote(order));
         return "orders/show";
     }
 
+    @ExceptionHandler(OrderNotFoundException.class)
+    public String handleException(OrderNotFoundException ex){
+        return "redirect:/client/profile";
+    }
+
     @GetMapping("/pay/{id}")
-    public String payPage(@PathVariable("id") Long id, Model model) {
-        Order order = null;
-        try {
-            order = orderService.show(id);
-        } catch (OrderNotFoundException throwables) {
-            throwables.printStackTrace();
-            return "redirect:/client/profile";
-        }
+    public String payPage(@PathVariable("id") Long id, Model model) throws OrderNotFoundException {
+        Order order = orderService.show(id);
         model.addAttribute("order", order);
         return "orders/pay/pay";
     }

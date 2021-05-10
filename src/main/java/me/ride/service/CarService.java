@@ -19,13 +19,11 @@ public class CarService {
         return carRepository.findAll();
     }
 
-    public Car show(Long id) throws CarNotFoundException {
+    public Car getCarById(Long id) throws CarNotFoundException {
         Car car = carRepository.getCarById(id);
-
         if (car == null) {
             throw new CarNotFoundException("Car not found");
         }
-
         return car;
     }
 
@@ -36,4 +34,5 @@ public class CarService {
     public List<Car> findAvailableCarsBetween(Date firstDay, Date lastDay) {
         return carRepository.findAvailableCarsBetween(firstDay, lastDay);
     }
+
 }

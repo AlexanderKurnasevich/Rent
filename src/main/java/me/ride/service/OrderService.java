@@ -1,5 +1,6 @@
 package me.ride.service;
 
+import me.ride.controller.OrderRequest;
 import me.ride.entity.User;
 import me.ride.entity.car.Car;
 import me.ride.entity.system.Damage;
@@ -31,6 +32,9 @@ public class OrderService {
     @Autowired
     private DamageRepository damageRepository;
 
+    @Autowired
+    private EmailService emailService;
+
     public void save(Order order){
         orderRepository.save(order);
     }
@@ -43,8 +47,7 @@ public class OrderService {
         return refuseNoteRepository.findRefuseNoteByOrder(order);
     }
 
-    @Transactional
-    public void updateStatus(Long orderId, OrderStatus status){  //если не найду как вырубить валидатор
+    public void updateStatus(Long orderId, OrderStatus status){
         orderRepository.updateStatus(orderId, status);
     }
 
@@ -68,11 +71,38 @@ public class OrderService {
         return orderRepository.findOrdersByFirstDayBetweenOrLastDayBetween(date1, date2);
     }
 
+    /*@Transactional
     public void processOrder(Long id, OrderStatus orderStatus) throws OrderNotFoundException {
+        orderRepository.updateStatus(id, orderStatus);
+        switch (action) {
+            case "refuse":
+                updateStatus(orderId, OrderStatus.REFUSED);
+                if (message != null)
+                    refuseNoteRepository.save()
+                    orderService.saveRefuseNote(orderId, message);
+                break;
+            case "accept":
+                orderService.updateStatus(orderId, OrderStatus.ACCEPTED);
+                break;
+            case "damaged":
+                orderService.updateStatus(orderId, OrderStatus.CAR_DAMAGED);
+                if(damage != null) {
+                    try {
+                        orderService.saveDamage(new Damage(orderService.show(orderId).getCar(), orderService.show(orderId), damage));
+                    } catch (OrderNotFoundException throwables) {
+                        throwables.printStackTrace();
+                    }
+                }
+                break;
+            case "return":
+                orderService.updateStatus(orderId, OrderStatus.RETURNED);
+                break;
+        }
+
         Order order = show(id);
         order.setOrderStatus(orderStatus);
         save(order);
-    }
+    }*/
 
     public void refuseOrder(Long id) throws OrderNotFoundException {
         Order order = show(id);
@@ -87,10 +117,6 @@ public class OrderService {
     }
 
     public boolean isCarFreeByOrders(Long carId, Date dateFrom, Date dateTo){
-//        System.out.println(order.getCar().getId());
-//        System.out.println(order.getFirstDay());
-//        System.out.println(order.getLastDay());
-//        System.out.println(orderRepository.findOrderByCarBetween(order.getCar().getId(), order.getFirstDay(), order.getLastDay()));
         return orderRepository.findOrderByCarBetween(carId, dateFrom, dateTo).isEmpty();
     }
 
@@ -98,4 +124,30 @@ public class OrderService {
         damageRepository.save(damage);
     }
 
+    @Transactional
+    public void processOrder(OrderRequest orderRequest) {
+        switch (orderRequest.getStatus()) {
+            case REFUSED:
+                updateStatus(orderRequest.getId(), OrderStatus.REFUSED);
+                if (orderRequest.getMessage() != null) saveRefuseNote(orderRequest.getId(), orderRequest.getMessage());
+                break;
+            case ACCEPTED:
+                updateStatus(orderRequest.getId(), OrderStatus.ACCEPTED);
+                break;
+            case CAR_DAMAGED:
+                updateStatus(orderRequest.getId(), OrderStatus.CAR_DAMAGED);
+                if (orderRequest.getDamage() != null) {
+                    try {
+                        saveDamage(new Damage(show(orderRequest.getId()).getCar(), show(orderRequest.getId()), orderRequest.getDamage()));
+                    } catch (OrderNotFoundException throwables) {
+                        throwables.printStackTrace();
+                    }
+                }
+                break;
+            case RETURNED:
+                updateStatus(orderRequest.getId(), OrderStatus.RETURNED);
+                break;
+        }
+        emailService.processOrderRequest(orderRequest);
+    }
 }
