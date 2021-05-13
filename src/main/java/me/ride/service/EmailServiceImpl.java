@@ -4,14 +4,9 @@ import lombok.SneakyThrows;
 import me.ride.controller.OrderRequest;
 import me.ride.entity.User;
 import me.ride.entity.client.Client;
-import me.ride.entity.system.Damage;
-import me.ride.entity.system.Order;
-import me.ride.entity.system.OrderStatus;
-import me.ride.exception.OrderNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -67,5 +62,9 @@ public class EmailServiceImpl implements EmailService {
                 sendSimpleMessage(to, RETURNED_SUBJECT, RETURNED_TEXT);
                 break;
         }
+    }
+
+    private String getMailText(Client client, OrderRequest orderRequest){
+        return "";
     }
 }
