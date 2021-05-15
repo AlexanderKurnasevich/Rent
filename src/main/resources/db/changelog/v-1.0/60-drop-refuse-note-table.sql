@@ -1,0 +1,1 @@
+DROP TABLE public.t_refuse_note;

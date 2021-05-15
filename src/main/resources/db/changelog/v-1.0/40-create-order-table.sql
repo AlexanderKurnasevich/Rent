@@ -1,0 +1,2 @@
+create table if not exists t_order (id  bigserial not null, first_day timestamp not null, last_day timestamp not null,
+order_status varchar(255), price float8, car_id int8, user_id int8, primary key (id));

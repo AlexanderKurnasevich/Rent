@@ -1,0 +1,1 @@
+create table if not exists t_car (id  bigserial not null, bags int4 not null, car_type varchar(255), doors int4 not null, name varchar(255), passengers int4 not null, primary key (id))

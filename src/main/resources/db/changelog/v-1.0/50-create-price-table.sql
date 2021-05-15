@@ -1,0 +1,1 @@
+create table if not exists t_price (id  bigserial not null, price_per_day float8, car_id int8, primary key (id));

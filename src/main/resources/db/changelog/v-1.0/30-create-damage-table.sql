@@ -1,0 +1,1 @@
+create table if not exists t_damage (id  bigserial not null, damage_cost float8, car_id int8, order_id int8, primary key (id));

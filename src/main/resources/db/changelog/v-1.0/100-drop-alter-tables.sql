@@ -1,0 +1,10 @@
+alter table if exists t_car_maintenance drop constraint car_id;
+alter table if exists t_client drop constraint user_id;
+alter table if exists t_damage drop constraint car_id;
+alter table if exists t_damage drop constraint order_id;
+alter table if exists t_order drop constraint car_id;
+alter table if exists t_order drop constraint user_id;
+alter table if exists t_price drop constraint car_id;
+alter table if exists t_refuse_note drop constraint order_id;
+alter table if exists t_user_roles drop constraint roles_id;
+alter table if exists t_user_roles drop constraint user_id;

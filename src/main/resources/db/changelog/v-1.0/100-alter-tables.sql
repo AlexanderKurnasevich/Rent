@@ -1,0 +1,10 @@
+alter table if exists t_car_maintenance add constraint car_id foreign key (car_id) references t_car;
+alter table if exists t_client add constraint user_id foreign key (user_id) references t_user;
+alter table if exists t_damage add constraint car_id foreign key (car_id) references t_car;
+alter table if exists t_damage add constraint order_id foreign key (order_id) references t_order;
+alter table if exists t_order add constraint car_id foreign key (car_id) references t_car;
+alter table if exists t_order add constraint user_id foreign key (user_id) references t_user;
+alter table if exists t_price add constraint car_id foreign key (car_id) references t_car;
+alter table if exists t_refuse_note add constraint order_id foreign key (order_id) references t_order;
+alter table if exists t_user_roles add constraint roles_id foreign key (roles_id) references t_role;
+alter table if exists t_user_roles add constraint user_id foreign key (user_id) references t_user;

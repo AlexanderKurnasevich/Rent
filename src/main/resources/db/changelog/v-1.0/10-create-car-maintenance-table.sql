@@ -1,0 +1,1 @@
+create table if not exists t_car_maintenance (id  bigserial not null, first_day timestamp, last_day timestamp, car_id int8, primary key (id));

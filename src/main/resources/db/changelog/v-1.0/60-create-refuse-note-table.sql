@@ -1,0 +1,1 @@
+create table if not exists t_refuse_note (id  bigserial not null, message varchar(255), order_id int8, primary key (id));
