@@ -100,8 +100,9 @@ public class OrderController {
     }
 
     @PostMapping("/pay")
-    public String payProcess(@ModelAttribute("order") Order order) {
-        orderService.updateStatus(order.getId(), OrderStatus.PAID);
+    public String payProcess(@ModelAttribute("order") OrderRequest orderRequest) {
+        orderRequest.setStatus(OrderStatus.PAID);
+        orderService.processOrder(orderRequest);
         return "redirect:/client/profile";
     }
 }

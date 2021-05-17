@@ -1,15 +1,115 @@
-h1 {
-    color: #78ab46;
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100&family=Raleway:wght@100&display=swap');
+
+@font-face {
+font-family: "Gilbert";
+src: url("../fonts/Gilbert-Bold Preview5.otf");
+    font-style: normal;
+    font-weight: normal;
+}
+
+body {
+    background-color: #f2f2f2;
+    font-family: "Lato";
+    font-weight: 300;
+    font-size: 16px;
+    color: #555;
+
+    -webkit-font-smoothing: subpixel-antialiased;
+    -webkit-overflow-scrolling: touch;
+
+    margin-top: 70px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Raleway";
+    font-weight: 300;
+    color: #333;
+}
+
+p {
+    line-height: 28px;
+    margin-bottom: 25px;
+}
+
+.centered {
+    text-align: center;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover, a:focus {
+    color: #7b7b7b;
+    text-decoration: none;
+    outline: 0;
 }
 
 footer {
     position: fixed;
-    height: 50px;
+    height: 35px;
     bottom: 0;
     width: 100%;
-    background-color: #ccc
+    background-color: #f2f2f2
 }
 
 footer p {
-    padding: 15px;
+    padding: 10px;
+}
+
+.navbar {
+    font-weight: 500;
+    font-size: 20px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.navbar-inverse {
+    background-color: #7e8941;
+    border-color: #2d2d2d;
+}
+
+#headerwrap {
+    background: url(../img/index.jpg) no-repeat center center;
+    margin-top: -10px;
+    padding-top: 20px;
+    text-align: center;
+    min-height: 900px;
+    width: 100%;
+
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+
+}
+
+#headerwrap h1{
+    margin-top: 100px;
+    color: white;
+    font-size: 70px;
+    font-weight: 300;
+    letter-spacing: 3px;
+}
+
+#headerwrap h2{
+    color: white;
+    font-size: 40px;
+    font-weight: 300;
+    letter-spacing: 3px;
+}
+
+.shadowtext {
+    text-shadow: 1px 1px 2px black, 0 0 1em #00d9ff; /* Параметры тени */
+    font-size: 1em; /* Размер надписи */
+}
+
+#div_field,
+#input_field{
+    display: none;
+}
+
+#CAR_DAMAGED:checked ~ #div_field,
+#CAR_DAMAGED:checked ~ #input_field{
+    display: block;
 }

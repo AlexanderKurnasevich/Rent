@@ -11,15 +11,14 @@
 </head>
 <body>
 <header th:insert="~{fragments/header :: header}"> </header>
-    <p>Модель: </p><a th:text="${car.getName()}"></a>
-    <p>Багаж: </p><a th:text="${car.getBags()}"></a>
-    <p>Дверей: </p><a th:text="${car.getDoors()}"></a>
-    <p>Пассажиров: </p><a th:text="${car.getPassengers()}"></a>
-    <p>Тип: </p><a th:text="${car.getCarType()}"></a>
-
-    <br/>
-    <hr/>
-    <a th:href="@{/orders/new(carId=${id})}">Заказать!</a>
+<h4 class="centered"><a th:text="${car.getName()}"></a></h4>
+<img th:src="@{/img/{id}.png(id=${car.getId()})}" th:alt="${car.getName()}" style="width: 500px" align="left">
+<p>Багаж: <a th:text="${car.getBags()}"></a></p>
+<p>Дверей: <a th:text="${car.getDoors()}"></a></p>
+<p>Пассажиров: <a th:text="${car.getPassengers()}"></a></p>
+<p>Тип: <a th:text="${car.getCarType().getTitle()}"></a></p>
+<p>Цена в день: <a th:text="${price.getPricePerDay()}"></a></p>
+<a th:href="@{/orders/new(carId=${id})}" class="btn btn-primary">Заказать!</a>
 <div th:insert="~{fragments/footer :: footer}"></div>
 </body>
 </html>

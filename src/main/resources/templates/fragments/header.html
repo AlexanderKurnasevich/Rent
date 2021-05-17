@@ -12,25 +12,25 @@
      <div class="navbar-collapse collapse" id="navbarNav">
        <ul class="navbar-nav" >
          <li class="nav-item active">
-           <a class="nav-link active" href="/">Home</a>
+           <a class="nav-link active" href="/">Главная</a>
          </li>
          <li class="nav-item">
-           <a class="nav-link active" th:href="@{/cars}">Cars</a>
+           <a class="nav-link active" th:href="@{/cars}">Машины</a>
          </li>
          <li sec:authorize="isAnonymous()" class="nav-item">
-           <a class="nav-link" th:href="@{/login}">Login</a>
+           <a class="nav-link" th:href="@{/login}">Войти</a>
          </li>
          <li sec:authorize="isAnonymous()" class="nav-item">
-           <a class="nav-link" th:href="@{/client/register}">Sing up</a>
+           <a class="nav-link" th:href="@{/client/register}">Регистрация</a>
          </li>
        </ul>
        <ul class="navbar-nav navbar-right" >
          <li sec:authorize="isAuthenticated()" class="nav-item"></li>
          <li sec:authorize="isAuthenticated()" class="nav-item">
-           <a class="nav-link" th:href="@{/client/profile}">Profile</a>
+           <a class="nav-link" th:href="@{/client/profile}">Профиль</a>
          </li>
          <li sec:authorize="isAuthenticated()" class="nav-item">
-           <a class="nav-link" th:href="@{/logout}">Logout</a>
+           <a class="nav-link" th:href="@{/logout}">Выйти</a>
          </li>
        </ul>
     </div>

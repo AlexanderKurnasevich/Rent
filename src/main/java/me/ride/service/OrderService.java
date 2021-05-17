@@ -128,14 +128,9 @@ public class OrderService {
     public void processOrder(OrderRequest orderRequest) {
         switch (orderRequest.getStatus()) {
             case REFUSED:
-                updateStatus(orderRequest.getId(), OrderStatus.REFUSED);
                 if (orderRequest.getMessage() != null) saveRefuseNote(orderRequest.getId(), orderRequest.getMessage());
                 break;
-            case ACCEPTED:
-                updateStatus(orderRequest.getId(), OrderStatus.ACCEPTED);
-                break;
             case CAR_DAMAGED:
-                updateStatus(orderRequest.getId(), OrderStatus.CAR_DAMAGED);
                 if (orderRequest.getDamage() != null) {
                     try {
                         saveDamage(new Damage(show(orderRequest.getId()).getCar(), show(orderRequest.getId()), orderRequest.getDamage()));
@@ -143,11 +138,8 @@ public class OrderService {
                         throwables.printStackTrace();
                     }
                 }
-                break;
-            case RETURNED:
-                updateStatus(orderRequest.getId(), OrderStatus.RETURNED);
-                break;
         }
+        updateStatus(orderRequest.getId(), orderRequest.getStatus());
         emailService.processOrderRequest(orderRequest);
     }
 }

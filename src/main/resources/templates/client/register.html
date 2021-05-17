@@ -3,65 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <title>Регистрация</title>
-  <link href="../static/css/main.css" th:href="@{/css/main.css}" rel="stylesheet" />
+    <link href="../static/css/main.css" th:href="@{/css/main.css}" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+          crossorigin="anonymous"></script>
 </head>
 <body>
 <header th:insert="~{fragments/header :: header}"> </header>
-<form th:method="POST" th:action="@{/client/register}">
-  <label for="username">username: </label>
-  <input type="text" th:field="*{userForm.username}" id="username"/>
-  <div style="color: red" th:if="${#fields.hasErrors('userForm.username')}" th:errors="*{userForm.username}">username error</div>
-  <br/>
-  <label for="password">password: </label>
-  <input type="password" th:field="*{userForm.password}" id="password"/>
-  <div style="color: red" th:if="${#fields.hasErrors('userForm.password')}" th:errors="*{userForm.password}">password error</div>
-  <br/>
-  <label for="passwordConfirm">passwordConfirm: </label>
-  <input type="password" th:field="*{userForm.passwordConfirm}" id="passwordConfirm"/>
-  <div style="color: red" th:if="${#fields.hasErrors('userForm.passwordConfirm')}" th:errors="*{userForm.passwordConfirm}">passwordConf error</div>
-  <br/>
-  <label for="surname">Фамилия: </label>
-  <input type="text" th:field="*{clientForm.surname}" id="surname" required/>
-  <div style="color: red" th:if="${#fields.hasErrors('clientForm.surname')}" th:errors="*{clientForm.surname}">surname error</div>
-  <br/>
-  <label for="cl_name">Имя: </label>
-  <input type="text" th:field="*{clientForm.name}" id="cl_name" required/>
-      <div style="color: red" th:if="${#fields.hasErrors('clientForm.name')}" th:errors="*{clientForm.name}">name error</div>
-  <br/>
-  <label for="dateOfBirth">Дата рождения: </label>
-  <input type="date" th:field="*{clientForm.dateOfBirth}" id="dateOfBirth" required/>
-      <div style="color: red" th:if="${#fields.hasErrors('clientForm.dateOfBirth')}" th:errors="*{clientForm.dateOfBirth}">dateOfBirth error</div>
-  <br/>
-  <p>Пол: </p>
-  <br><input type="radio" th:field="*{clientForm.sex}" th:value="MALE" required/> Мужской</br>
-  <br><input type="radio" th:field="*{clientForm.sex}" th:value="FEMALE" required/> Женский</br>
-  <br/>
-  <label for="email">Email: </label>
-  <input type="text" th:field="*{clientForm.email}" id="email" required/>
-  <div style="color: red" th:if="${#fields.hasErrors('clientForm.email')}" th:errors="*{clientForm.email}">email error</div>
-  <br/>
-  <label for="passportNo">Номер пасспорта: </label>
-  <input type="text" th:field="*{clientForm.passportNo}" id="passportNo" required/>
-      <div style="color: red" th:if="${#fields.hasErrors('clientForm.passportNo')}" th:errors="*{clientForm.passportNo}">passportNo error</div>
-  <br/>
-  <label for="dateOfIssue">Дата выдачи: </label>
-  <input type="date" th:field="*{clientForm.dateOfIssue}" id="dateOfIssue" required/>
-      <div style="color: red" th:if="${#fields.hasErrors('clientForm.dateOfIssue')}" th:errors="*{clientForm.dateOfIssue}">dateOfIssue error</div>
-  <br/>
-  <label for="dateOfExpiry">Действителен до: </label>
-  <input type="date" th:field="*{clientForm.dateOfExpiry}" id="dateOfExpiry" required/>
-      <div style="color: red" th:if="${#fields.hasErrors('clientForm.dateOfExpiry')}" th:errors="*{clientForm.dateOfExpiry}">dateOfExpiry error</div>
-  <br/>
-  <label for="authority">Выдан: </label>
-  <input type="text" th:field="*{clientForm.authority}" id="authority" required/>
-      <div style="color: red" th:if="${#fields.hasErrors('clientForm.authority')}" th:errors="*{clientForm.authority}">email error</div>
-  <br/>
-  <label for="personalNo">Личный номер: </label>
-  <input type="text" th:field="*{clientForm.personalNo}" id="personalNo" required/>
-      <div style="color: red" th:if="${#fields.hasErrors('clientForm.personalNo')}" th:errors="*{clientForm.personalNo}">email error</div>
-  <br/>
-  <input type="submit" value="Reg!"/>
+<form class="card-body" style="width: 20rem" th:method="POST" th:action="@{/client/register}">
+  <div class="mb-3">
+    <label for="username">Имя пользователя: </label>
+    <input type="text" class="form-control" th:field="*{userForm.username}" id="username" required/>
+    <div style="color: red" th:if="${#fields.hasErrors('userForm.username')}" th:errors="*{userForm.username}">username error</div>
+  </div>
+  <div class="mb-3">
+    <label for="password">Пароль: </label>
+    <input type="password" class="form-control" th:field="*{userForm.password}" id="password" required/>
+    <div style="color: red" th:if="${#fields.hasErrors('userForm.password')}" th:errors="*{userForm.password}">password error</div>
+  </div>
+  <div class="mb-3">
+    <label for="passwordConfirm">Повторите пароль: </label>
+    <input type="password" class="form-control" th:field="*{userForm.passwordConfirm}" id="passwordConfirm" required/>
+    <div style="color: red" th:if="${#fields.hasErrors('userForm.passwordConfirm')}" th:errors="*{userForm.passwordConfirm}">passwordConf error</div>
+  </div>
+  <div class="mb-3">
+    <label for="surname">Фамилия: </label>
+    <input type="text" class="form-control" th:field="*{clientForm.surname}" id="surname" required/>
+    <div style="color: red" th:if="${#fields.hasErrors('clientForm.surname')}" th:errors="*{clientForm.surname}">surname error</div>
+  </div>
+  <div class="mb-3">
+    <label for="cl_name">Имя: </label>
+    <input type="text" class="form-control" th:field="*{clientForm.name}" id="cl_name" required/>
+    <div style="color: red" th:if="${#fields.hasErrors('clientForm.name')}" th:errors="*{clientForm.name}">name error</div>
+  </div>
+  <div class="mb-3">
+    <label for="dateOfBirth">Дата рождения: </label>
+    <input type="date" class="form-control" th:field="*{clientForm.dateOfBirth}" id="dateOfBirth" required/>
+    <div style="color: red" th:if="${#fields.hasErrors('clientForm.dateOfBirth')}" th:errors="*{clientForm.dateOfBirth}">dateOfBirth error</div>
+  </div>
+  <div class="mb-3">
+    <a>Пол: </a>
+    <br><input type="radio" th:field="*{clientForm.sex}" th:value="MALE" required checked/> Мужской</br>
+    <br><input type="radio" th:field="*{clientForm.sex}" th:value="FEMALE" required/> Женский</br>
+    <div style="color: red" th:if="${#fields.hasErrors('userForm.password')}" th:errors="*{userForm.password}">password error</div>
+  </div>
+  <div class="mb-3">
+    <label for="email">Email: </label>
+    <input type="text" class="form-control" th:field="*{clientForm.email}" id="email" required/>
+    <div style="color: red" th:if="${#fields.hasErrors('clientForm.email')}" th:errors="*{clientForm.email}">email error</div>
+  </div>
+  <div class="mb-3">
+    <label for="passportNo">Номер пасспорта: </label>
+    <input type="text" class="form-control" th:field="*{clientForm.passportNo}" id="passportNo" required/>
+    <div style="color: red" th:if="${#fields.hasErrors('clientForm.passportNo')}" th:errors="*{clientForm.passportNo}">passportNo error</div>
+  </div>
+  <div class="mb-3">
+    <label for="dateOfIssue">Дата выдачи: </label>
+    <input type="date" class="form-control" th:field="*{clientForm.dateOfIssue}" id="dateOfIssue" required/>
+    <div style="color: red" th:if="${#fields.hasErrors('clientForm.dateOfIssue')}" th:errors="*{clientForm.dateOfIssue}">dateOfIssue error</div>
+  </div>
+  <div class="mb-3">
+    <label for="dateOfExpiry">Действителен до: </label>
+    <input type="date"  class="form-control" th:field="*{clientForm.dateOfExpiry}" id="dateOfExpiry" required/>
+    <div style="color: red" th:if="${#fields.hasErrors('clientForm.dateOfExpiry')}" th:errors="*{clientForm.dateOfExpiry}">dateOfExpiry error</div>
+  </div>
+  <div class="mb-3">
+    <label for="authority">Выдан: </label>
+    <input type="text" class="form-control" th:field="*{clientForm.authority}" id="authority" required/>
+    <div style="color: red" th:if="${#fields.hasErrors('clientForm.authority')}" th:errors="*{clientForm.authority}">email error</div>
+  </div>
+  <div class="mb-3">
+    <label for="personalNo">Личный номер: </label>
+    <input type="text" class="form-control" th:field="*{clientForm.personalNo}" id="personalNo" required/>
+    <div style="color: red" th:if="${#fields.hasErrors('clientForm.personalNo')}" th:errors="*{clientForm.personalNo}">email error</div>
+  </div>
+  <button type="submit" class="btn btn-primary">Отправить</button>
 </form>
+<p>footer</p>
 <div th:insert="~{fragments/footer :: footer}"></div>
 </body>
 </html>

@@ -27,7 +27,8 @@ public class RentPrice {
     public RentPrice() {
     }
 
-    public RentPrice(Car car, Double pricePerDay) {
+    public RentPrice(Long id, Car car, Double pricePerDay) {
+        this.id = id;
         this.car = car;
         this.pricePerDay = pricePerDay;
     }

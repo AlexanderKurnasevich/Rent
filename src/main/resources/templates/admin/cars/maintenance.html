@@ -3,27 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <title>Maintenance</title>
+  <link href="../static/css/main.css" th:href="@{/css/main.css}" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+          crossorigin="anonymous"></script>
 </head>
 <body>
 <header th:insert="~{fragments/header :: header}"> </header>
-<p>Id: </p>
-<p th:text="${maintenance.getId()}"></p>
-<p>Машина: </p>
-<p th:text="${maintenance.getCar().getName()}"></p>
-<br/>
+<div class="card-body" style="width: 20rem">
+<p>Id: <a th:text="${maintenance.getId()}"></a></p>
+<p>Машина: <a th:href="@{/admin/cars/{id}(id=${maintenance.getCar().getId()})}" th:text="${maintenance.getCar().getName()}"></a></p>
 <form th:method="POST" th:action="@{/admin/cars/maintenances}">
   <label for="firstDay">Первый день: </label>
-  <input type="date" th:field="*{maintenance.firstDay}" id="firstDay" required/>
+  <input type="date" class="form-control" th:field="*{maintenance.firstDay}" id="firstDay" required/>
   <div style="color: red" th:if="${#fields.hasErrors('maintenance.firstDay')}" th:errors="*{maintenance.firstDay}">firstDay error</div>
   <br/>
   <label for="lastDay">Последний день: </label>
-  <input type="date" th:field="*{maintenance.lastDay}" id="lastDay" required/>
+  <input type="date" class="form-control" th:field="*{maintenance.lastDay}" id="lastDay" required/>
   <div style="color: red" th:if="${#fields.hasErrors('maintenance.lastDay')}" th:errors="*{maintenance.lastDay}">dateOfExpiry error</div>
   <br/>
   <input type="hidden" th:field="*{maintenance.id}" id="id" required/>
   <input type="hidden" th:field="*{maintenance.car}" id="car" required/>
   <input type="submit" value="Изменить"/>
 </form>
+</div>
 <div th:insert="~{fragments/footer :: footer}"></div>
 </body>
 </html>

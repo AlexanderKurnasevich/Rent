@@ -3,32 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <title>Обслуживание</title>
+    <link href="../static/css/main.css" th:href="@{/css/main.css}" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+            crossorigin="anonymous"></script>
 </head>
 <body>
 <header th:insert="~{fragments/header :: header}"> </header>
-<!--<div th:each="maintenance : ${maintenances}">-->
-<!--  <p th:text="${maintenance.getId()}"></p>-->
-<!--  <p th:text="${maintenance.getCar().getName()}"></p>-->
-<!--  <p th:text="${maintenance.getFirstDay()}"></p>-->
-<!--  <p th:text="${maintenance.getLastDay()}"></p>-->
-<!--  <a th:href="@{/admin/cars/maintenances/{id}(id=${maintenance.getId()})}">Подробнее</a>-->
-<!--</div>-->
-<table>
+<table class="table">
     <thead>
-    <th>ID</th>
-    <th>Машина</th>
-    <th>Первый день обслуживания</th>
-    <th>Последний день обслуживания</th>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Машина</th>
+        <th scope="col">Первый день обслуживания</th>
+        <th scope="col">Последний день обслуживания</th>
+        <th scope="col"> </th>
+    </tr>
     </thead>
-    <div th:each="maintenance : ${maintenances}">
-        <tr>
-            <td th:text="${maintenance.getId()}"></td>
-            <td th:text="${maintenance.getCar().getName()}"></td>
-            <td th:text="${maintenance.getFirstDay()}"></td>
-            <td th:text="${maintenance.getLastDay()}"></td>
-            <td><a th:href="@{/admin/cars/maintenances/{id}(id=${maintenance.getId()})}">Подробнее</a></td>
-        </tr>
-    </div>
+    <tbody th:each="maintenance : ${maintenances}">
+    <tr>
+        <td th:text="${maintenance.getId()}"></td>
+        <td th:text="${maintenance.getCar().getName()}"></td>
+        <td th:text="${#dates.format(maintenance.getFirstDay(), 'dd.MM.yyyy')}"></td>
+        <td th:text="${#dates.format(maintenance.getLastDay(), 'dd.MM.yyyy')}"></td>
+        <td><a th:href="@{/admin/cars/maintenances/{id}(id=${maintenance.getId()})}">Подробнее</a></td>
+    </tr>
+    </tbody>
 </table>
 <div th:insert="~{fragments/footer :: footer}"></div>
 </body>
