@@ -64,7 +64,7 @@ public class EmailServiceImpl implements EmailService {
         }
     }
 
-    private String getMailText(Client client, OrderRequest orderRequest){
+    private String getMailText(Client client, OrderRequest orderRequest) {
         return "";
     }
 }
