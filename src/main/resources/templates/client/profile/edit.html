@@ -11,7 +11,7 @@
 </head>
 <body>
 <header th:insert="~{fragments/header :: header}"> </header>
-<form class="card-body" style="width: 20rem" th:method="POST" th:action="@{/client/register}">
+<form class="card-body" style="width: 20rem" th:method="POST" th:action="@{/client/profile/edit}">
     <div class="mb-3">
         <label for="surname">Фамилия: </label>
         <input type="text" class="form-control" th:field="*{clientForm.surname}" id="surname" required/>

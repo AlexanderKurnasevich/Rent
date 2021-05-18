@@ -17,12 +17,12 @@
 <form th:method="POST" th:action="@{/orders/new}">
     <div class="mb-3">
         <label for="firstDay">Первый день аредны: </label>
-        <input type="date" th:field="${order.firstDay}" id="firstDay"/>
+        <input type="date" th:field="${order.firstDay}" id="firstDay" required/>
         <div style="color: red" th:if="${#fields.hasErrors('order.firstDay')}" th:errors="*{order.firstDay}">date error</div>
     </div>
     <div class="mb-3">
         <label for="lastDay">Последний день аренды: </label>
-        <input type="date" th:field="${order.lastDay}" id="lastDay"/>
+        <input type="date" th:field="${order.lastDay}" id="lastDay" required/>
         <div style="color: red" th:if="${#fields.hasErrors('order.lastDay')}" th:errors="*{order.lastDay}">date error</div>
         <input type="hidden" th:field="*{order.car}" id="car">
     </div>

@@ -140,6 +140,11 @@ public class OrderService {
                 }
         }
         updateStatus(orderRequest.getId(), orderRequest.getStatus());
-        emailService.processOrderRequest(orderRequest);
+//        emailService.processOrderRequest(orderRequest);
+        System.out.println("mail"+orderRequest.getStatus().getTitle());
+    }
+
+    public Damage findDamageByOrder(Order order){
+        return damageRepository.findDamageByOrder(order);
     }
 }

@@ -37,7 +37,7 @@ public class Order {
     private Date firstDay;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Future
+    @Future(message = "Будующий день")
     @NotNull
     private Date lastDay;
 

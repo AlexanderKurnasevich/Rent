@@ -30,17 +30,18 @@
     </div>
     <p>Тип: </p>
     <select class="form-control" th:field="*{car.carType}" required>
-        <option th:value="ECONONY" th:text="${T(me.ride.entity.car.CarType).ECONONY.getTitle()}">Эконом</option>
+        <option th:value="ECONONY" th:text="${T(me.ride.entity.car.CarType).ECONOMY.getTitle()}">Эконом</option>
         <option th:value="COMPACT" th:text="${T(me.ride.entity.car.CarType).COMPACT.getTitle()}">Компакт</option>
         <option th:value="COMPACT_SUV" th:text="${T(me.ride.entity.car.CarType).COMPACT_SUV.getTitle()}">Компактный кроссовер</option>
         <option th:value="INTERMEDIATE" th:text="${T(me.ride.entity.car.CarType).INTERMEDIATE.getTitle()}">Средний</option>
         <option th:value="INTERMEDIATE_SUV" th:text="${T(me.ride.entity.car.CarType).INTERMEDIATE_SUV.getTitle()}">Средний кроссовер</option>
-        <option th:value="STANDART" th:text="${T(me.ride.entity.car.CarType).STANDART.getTitle()}">Стандарт</option>
-        <option th:value="STANDART_SUV" th:text="${T(me.ride.entity.car.CarType).STANDART_SUV.getTitle()}">Стандартный кроссовер</option>
+        <option th:value="STANDART" th:text="${T(me.ride.entity.car.CarType).STANDARD.getTitle()}">Стандарт</option>
+        <option th:value="STANDART_SUV" th:text="${T(me.ride.entity.car.CarType).STANDARD_SUV.getTitle()}">Стандартный кроссовер</option>
         <option th:value="FULL_SIZE" th:text="${T(me.ride.entity.car.CarType).FULL_SIZE.getTitle()}">Полноразмерный</option>
         <option th:value="FULL_SIZE_SUV" th:text="${T(me.ride.entity.car.CarType).FULL_SIZE_SUV.getTitle()}">Полноразмерный кроссовер</option>
         <option th:value="PREMIUM" th:text="${T(me.ride.entity.car.CarType).PREMIUM.getTitle()}">Премиум</option>
         <option th:value="MINIVAN" th:text="${T(me.ride.entity.car.CarType).MINIVAN.getTitle()}">Минивэн</option>
+        <option th:value="SPORT" th:text="${T(me.ride.entity.car.CarType).SPORT.getTitle()}">Спортивный</option>
     </select>
     <div class="mb-3">
         <label for="price">Цена в день: </label>

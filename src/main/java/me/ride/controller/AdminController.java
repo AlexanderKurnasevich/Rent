@@ -1,9 +1,7 @@
 package me.ride.controller;
 
 import me.ride.entity.car.Car;
-import me.ride.entity.system.Maintenance;
-import me.ride.entity.system.OrderStatus;
-import me.ride.entity.system.RentPrice;
+import me.ride.entity.system.*;
 import me.ride.exception.CarNotFoundException;
 import me.ride.exception.OrderNotFoundException;
 import me.ride.service.*;
@@ -66,7 +64,10 @@ public class AdminController {
 
     @GetMapping("/admin/orders/{id}")
     public String orderShow(@PathVariable("id") Long id, Model model) throws OrderNotFoundException {
-        model.addAttribute("order", orderService.show(id));
+        Order order = orderService.show(id);
+        Damage damage = orderService.findDamageByOrder(order);
+        model.addAttribute("order", order);
+        if (damage != null) model.addAttribute("damage", damage);
         return "admin/orders/order";
     }
 

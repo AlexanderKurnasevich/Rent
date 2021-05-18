@@ -6,5 +6,7 @@
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
     <include file="01-changeset-insert-admin.xml" relativeToChangelogFile="true"/>
+    <include file="02-changeset-create-order-conflict-function.xml" relativeToChangelogFile="true"/>
+    <include file="03-changeset-create-order-conflict-trigger.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

@@ -18,7 +18,7 @@
 <p>Стоимость: <a th:text="${order.getPrice()}"></a></p>
 <p>Статус: <a th:text="${order.getOrderStatus().getTitle()}"></a></p>
 <div th:switch="${order.getOrderStatus()}">
-    <div th:case="${T(me.ride.entity.system.OrderStatus).REFUSED}"><p >Сообщение:</p>
+    <div th:case="${T(me.ride.entity.system.OrderStatus).REFUSED}"><p th:if= "${note?.message != ''}">Сообщение:</p>
         <p th:text="${note?.message}"></p></div>
     <a th:case="${T(me.ride.entity.system.OrderStatus).ACCEPTED}" th:href="@{/orders/pay/{id}(id=${order.getId()})}">Оплатить</a>
 </div>

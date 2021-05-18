@@ -3,20 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <title>Maintenance</title>
+  <link href="../static/css/main.css" th:href="@{/css/main.css}" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+          crossorigin="anonymous"></script>
 </head>
 <body>
 <header th:insert="~{fragments/header :: header}"> </header>
-<form th:method="POST" th:action="@{/admin/cars/maintenance}">
+<form class="card" style="width: 20rem" th:method="POST" th:action="@{/admin/cars/maintenance}">
   <p>Машина: </p><a th:text="${maintenance.getCar().getName()}"></a>
   <hr/>
   <p>Заполните форму:</p>
   <hr/>
   <label for="firstDay">Первый день обслуживания: </label>
-  <input type="date" th:field="${maintenance.firstDay}" id="firstDay"/>
+  <input type="date" class="form-control" th:field="${maintenance.firstDay}" id="firstDay"/>
   <div style="color: red" th:if="${#fields.hasErrors('maintenance.firstDay')}" th:errors="*{maintenance.firstDay}">date error</div>
   <br/>
   <label for="lastDay">Последний день обслуживания: </label>
-  <input type="date" th:field="${maintenance.lastDay}" id="lastDay"/>
+  <input type="date" class="form-control" th:field="${maintenance.lastDay}" id="lastDay"/>
   <div style="color: red" th:if="${#fields.hasErrors('maintenance.lastDay')}" th:errors="*{maintenance.lastDay}">date error</div>
   <br/>
   <input type="hidden" th:field="*{maintenance.car}" id="car">

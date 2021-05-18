@@ -12,7 +12,7 @@
 <body>
 <header th:insert="~{fragments/header :: header}"> </header>
 <h4 class="centered"><a th:text="${car.getName()}"></a></h4>
-<img th:src="@{/img/{id}.png(id=${car.getId()})}" th:alt="${car.getName()}" style="width: 500px" align="left">
+<img th:src="@{/img/{id}.png(id=${car.getId()})}" th:alt="${car.getName()}" style="height: 250px" align="left">
 <p>Багаж: <a th:text="${car.getBags()}"></a></p>
 <p>Дверей: <a th:text="${car.getDoors()}"></a></p>
 <p>Пассажиров: <a th:text="${car.getPassengers()}"></a></p>
