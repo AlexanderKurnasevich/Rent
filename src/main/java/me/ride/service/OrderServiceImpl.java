@@ -34,6 +34,10 @@ public class OrderServiceImpl implements OrderService{
 
     public void save(Order order){
         orderRepository.save(order);
+        OrderRequest orderRequest = new OrderRequest();
+        orderRequest.setId(order.getId());
+        orderRequest.setStatus(order.getOrderStatus());
+        emailService.processOrderRequest(orderRequest);
     }
 
     public void saveRefuseNote(Long orderId, String message){
@@ -92,7 +96,7 @@ public class OrderServiceImpl implements OrderService{
                 }
         }
         updateStatus(orderRequest.getId(), orderRequest.getStatus());
-//        emailService.processOrderRequest(orderRequest);
+        emailService.processOrderRequest(orderRequest);
         System.out.println("mail"+orderRequest.getStatus().getTitle());
     }
 

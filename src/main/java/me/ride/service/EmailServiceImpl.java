@@ -4,10 +4,18 @@ import lombok.SneakyThrows;
 import me.ride.controller.OrderRequest;
 import me.ride.entity.User;
 import me.ride.entity.client.Client;
+import me.ride.service.context.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring5.SpringTemplateEngine;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import java.nio.charset.StandardCharsets;
 
 @Service
 public class EmailServiceImpl implements EmailService {
@@ -25,6 +33,9 @@ public class EmailServiceImpl implements EmailService {
     private JavaMailSender emailSender;
 
     @Autowired
+    private SpringTemplateEngine templateEngine;
+
+    @Autowired
     private ClientService clientService;
 
     @Autowired
@@ -32,6 +43,23 @@ public class EmailServiceImpl implements EmailService {
 
     @Autowired
     private OrderService orderService;
+
+    @Override
+    public void sendMail(AbstractEmailContext email) throws MessagingException {
+        MimeMessage message = emailSender.createMimeMessage();
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message,
+                MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+                StandardCharsets.UTF_8.name());
+        Context context = new Context();
+        context.setVariables(email.getContext());
+        String emailContent = templateEngine.process(email.getTemplateLocation(), context);
+
+        mimeMessageHelper.setTo(email.getTo());
+        mimeMessageHelper.setSubject(email.getSubject());
+        mimeMessageHelper.setFrom(email.getFrom());
+        mimeMessageHelper.setText(emailContent, true);
+        emailSender.send(message);
+    }
 
     public void sendSimpleMessage(String to, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
@@ -47,24 +75,25 @@ public class EmailServiceImpl implements EmailService {
     public void processOrderRequest(OrderRequest orderRequest) {
         User user = orderService.show(orderRequest.getId()).getUser();
         Client client = clientService.findClientByUser(user);
-        String to = client.getEmail();
+        AbstractEmailContext emailContext = null;
         switch (orderRequest.getStatus()) {
             case REFUSED:
-                sendSimpleMessage(to, REFUSED_SUBJECT, REFUSED_TEXT);
+                emailContext = new OrderRefusedEmailContext();
                 break;
             case ACCEPTED:
-                sendSimpleMessage(to, ACCEPTED_SUBJECT, ACCEPTED_TEXT);
+                emailContext = new OrderAcceptedEmailContext();
                 break;
             case CAR_DAMAGED:
-                sendSimpleMessage(to, CAR_DAMAGED_SUBJECT, CAR_DAMAGED_TEXT);
+                emailContext = new CarDamagedEmailContext();
+                break;
+            case UNDER_CONSIDERATION:
+                emailContext = new NewOrderMailContext();
                 break;
             case RETURNED:
-                sendSimpleMessage(to, RETURNED_SUBJECT, RETURNED_TEXT);
-                break;
+                return;
         }
-    }
-
-    private String getMailText(Client client, OrderRequest orderRequest) {
-        return "";
+        emailContext.init(client);
+        emailContext.put("orderRequest", orderRequest);
+        sendMail(emailContext);
     }
 }
