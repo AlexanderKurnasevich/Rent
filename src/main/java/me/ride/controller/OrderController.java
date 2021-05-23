@@ -1,5 +1,6 @@
 package me.ride.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import me.ride.entity.system.Order;
 import me.ride.entity.User;
 import me.ride.entity.car.Car;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+@Slf4j
 @Controller
 @RequestMapping("/orders")
 public class OrderController {
@@ -47,6 +49,7 @@ public class OrderController {
 
     @ExceptionHandler(CarNotFoundException.class)
     public String handleException(CarNotFoundException ex){
+        log.error("Машина не найдена",ex);
         return "redirect:/cars";
     }
 
@@ -72,6 +75,7 @@ public class OrderController {
 
     @ExceptionHandler(UsernameNotFoundException.class)
     public String handleException(UsernameNotFoundException ex){
+        log.error("Пользователь не найден",ex);
         return "redirect:/orders";
     }
 
@@ -89,6 +93,7 @@ public class OrderController {
 
     @ExceptionHandler(OrderNotFoundException.class)
     public String handleException(OrderNotFoundException ex){
+        log.error("Заказ не найден",ex);
         return "redirect:/client/profile";
     }
 

@@ -1,5 +1,6 @@
 package me.ride.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import me.ride.entity.car.Car;
 import me.ride.entity.system.*;
 import me.ride.exception.CarNotFoundException;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+@Slf4j
 @Controller
 public class AdminController {
 
@@ -73,6 +75,7 @@ public class AdminController {
 
     @ExceptionHandler(OrderNotFoundException.class)
     public String handleException(OrderNotFoundException e) {
+        log.error("Заказ не найден",e);
         return "redirect:/";
     }
 
@@ -117,6 +120,7 @@ public class AdminController {
 
     @ExceptionHandler(CarNotFoundException.class)
     public String handleException(CarNotFoundException e) {
+        log.error("Машина не найдена",e);
         return "redirect:/admin/cars";
     }
 

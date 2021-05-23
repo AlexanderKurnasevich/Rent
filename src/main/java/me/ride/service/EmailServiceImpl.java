@@ -89,6 +89,9 @@ public class EmailServiceImpl implements EmailService {
             case UNDER_CONSIDERATION:
                 emailContext = new NewOrderMailContext();
                 break;
+            case PAID:
+                emailContext = new OrderPaidMailContext();
+                break;
             case RETURNED:
                 return;
         }

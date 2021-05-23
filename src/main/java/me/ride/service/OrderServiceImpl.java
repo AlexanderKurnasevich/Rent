@@ -97,7 +97,6 @@ public class OrderServiceImpl implements OrderService{
         }
         updateStatus(orderRequest.getId(), orderRequest.getStatus());
         emailService.processOrderRequest(orderRequest);
-        System.out.println("mail"+orderRequest.getStatus().getTitle());
     }
 
     public Damage findDamageByOrder(Order order){

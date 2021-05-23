@@ -1,5 +1,6 @@
 package me.ride.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import me.ride.entity.car.Car;
 import me.ride.entity.system.Order;
 import me.ride.entity.system.RentPrice;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+@Slf4j
 @Controller
 @RequestMapping("/cars")
 public class CarsController {
@@ -41,6 +43,7 @@ public class CarsController {
 
     @ExceptionHandler(CarNotFoundException.class)
     public String handleException(CarNotFoundException ex){
+        log.error("Машина не найдена",ex);
         return "redirect:/cars";
     }
 
