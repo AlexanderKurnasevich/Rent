@@ -1,16 +1,14 @@
 package me.ride.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import me.ride.entity.system.Order;
 import me.ride.entity.User;
 import me.ride.entity.car.Car;
+import me.ride.entity.system.Order;
 import me.ride.entity.system.OrderStatus;
 import me.ride.exception.CarNotFoundException;
 import me.ride.exception.OrderNotFoundException;
 import me.ride.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -81,11 +79,7 @@ public class OrderController {
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") Long id, Model model) throws OrderNotFoundException { //вынести в service
-        User user = userService.getAuthorizedUser();
         Order order = orderService.show(id);
-        if(!user.equals(order.getUser())){
-            return "/403";
-        }
         model.addAttribute("order", order);
         model.addAttribute("note", orderService.findRefuseNote(order));
         return "orders/show";

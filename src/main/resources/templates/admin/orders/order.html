@@ -5,9 +5,9 @@
     <title>Заказ</title>
     <link href="../static/css/main.css" th:href="@{/css/main.css}" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
-            crossorigin="anonymous"></script>
+    crossorigin="anonymous"></script>
 </head>
 <body>
 <header th:insert="~{fragments/header :: header}"> </header>
@@ -36,26 +36,24 @@
     </tbody>
 </table>
 <div class="card-body" style="width: 20rem">
-    <form th:action="@{/admin/orders}" th:method="POST">
-        <input type="hidden" name="orderId" th:value="${order.getId()}"/>
-        <input type="hidden" name="action" value="ACCEPTED" />
-    <!--    <input type="hidden" name="id" th:value="${order.getId()}"/>-->
-    <!--    <input type="hidden" name="action" th:value="${T(me.ride.entity.system.OrderStatus).ACCEPTED}"/>-->
+    <form th:action="@{/admin/orders}" th:method="POST" th:object="${orderRequest}">
+        <input type="hidden" th:value="${order.getId()}" th:attr="name='id'"/>
+        <input type="hidden" th:value="ACCEPTED" th:attr="name='status'"/>
         <button type="submit" class="btn btn-success">Одобрить</button>
     </form>
     </hr>
-    <form th:action="@{/admin/orders}" th:method="POST">
-        <input type="hidden" name="orderId" th:value="${order.getId()}"/>
-        <input type="hidden" name="action" value="REFUSED"/>
+    <form th:action="@{/admin/orders}" th:method="POST" th:object="${orderRequest}">
+        <input type="hidden" th:value="${order.getId()}" th:attr="name='id'"/>
+        <input type="hidden" th:value="REFUSED" th:attr="name='status'"/>
         <button type="submit" class="btn btn-danger">Отклонить</button>
         <p><b>Сообщение, если требуется:</b></p>
-        <p><textarea name="message"></textarea></p>
+        <p><textarea name="message" th:attr="name='message'"></textarea></p>
     </form>
-    <form th:action="@{/admin/orders}" th:method="POST">
-        <input type="hidden" name="orderId" th:value="${order.getId()}"/>
-        <input type="radio" name="action" value="RETURNED" id="RETURNED" checked><label for="RETURNED">Машина не повреждена</label><br>
-        <input type="radio" name="action" value="CAR_DAMAGED" id="CAR_DAMAGED"><label for="CAR_DAMAGED">Машина повреждена</label><br>
-        <div id=div_field>Сумма повреждений</div><input type="number" step="0.01" min=0.01 name="damage" id=input_field>
+    <form th:action="@{/admin/orders}" th:method="POST" th:object="${orderRequest}">
+        <input type="hidden" th:value="${order.getId()}" th:attr="name='id'"/>
+        <input type="radio" name="action" th:value="RETURNED" id="RETURNED" th:attr="name='status'" checked><label for="RETURNED">Машина не повреждена</label><br>
+        <input type="radio" name="action" th:value="CAR_DAMAGED" id="CAR_DAMAGED" th:attr="name='status'"><label for="CAR_DAMAGED">Машина повреждена</label><br>
+        <div id=div_field>Сумма повреждений</div><input type="number" step="0.01" min=0.01 name="damage" id=input_field th:attr="name='damage'">
         <button type="submit" class="btn btn-warning">Зафиксировать возврат</button>
     </form>
 </div>

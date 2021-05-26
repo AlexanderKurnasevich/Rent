@@ -11,9 +11,11 @@ import me.ride.repository.DamageRepository;
 import me.ride.repository.OrderRepository;
 import me.ride.repository.RefuseNoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.nio.file.attribute.UserPrincipal;
 import java.util.Date;
 import java.util.List;
 
@@ -30,6 +32,9 @@ public class OrderServiceImpl implements OrderService{
     private DamageRepository damageRepository;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private EmailService emailService;
 
     public void save(Order order){
@@ -44,8 +49,14 @@ public class OrderServiceImpl implements OrderService{
         refuseNoteRepository.save(new RefuseNote(orderRepository.getOrderById(orderId), message));
     }
 
+    @PreAuthorize("this.checkIfAccessAllowed(#order)")
     public RefuseNote findRefuseNote(Order order){
         return refuseNoteRepository.findRefuseNoteByOrder(order);
+    }
+
+    public boolean checkIfAccessAllowed(Order order) {
+        User authorizedUser = userService.getAuthorizedUser();
+        return authorizedUser.equals(order.getUser());
     }
 
     public void updateStatus(Long orderId, OrderStatus status){

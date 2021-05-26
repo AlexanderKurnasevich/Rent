@@ -21,15 +21,15 @@ import java.util.Optional;
 @Service
 public interface UserService extends UserDetailsService {
 
-    public User getAuthorizedUser() throws UsernameNotFoundException;
+    User getAuthorizedUser() throws UsernameNotFoundException;
 
-    public User findUserById(Long userId);
+    User findUserById(Long userId);
 
-    public List<User> allUsers();
+    List<User> allUsers();
 
-    public boolean saveUser(User user);
+    boolean saveUser(User user);
 
-    public boolean deleteUser(Long userId);
+    boolean deleteUser(Long userId);
 
-    public List<User> usergtList(Long idMin);
+    List<User> usergtList(Long idMin);
 }

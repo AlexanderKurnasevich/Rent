@@ -69,32 +69,20 @@ public class AdminController {
         Order order = orderService.show(id);
         Damage damage = orderService.findDamageByOrder(order);
         model.addAttribute("order", order);
+        model.addAttribute("orderRequest", new OrderRequest());
         if (damage != null) model.addAttribute("damage", damage);
         return "admin/orders/order";
     }
 
     @ExceptionHandler(OrderNotFoundException.class)
     public String handleException(OrderNotFoundException e) {
-        log.error("Заказ не найден",e);
+        log.error("Заказ не найден", e);
         return "redirect:/";
     }
 
-    @PostMapping( "/admin/orders")
-    public String orderRequest(@RequestParam(defaultValue = "") Long orderId,
-                               @RequestParam(defaultValue = "") String action,
-                               @RequestParam(required = false, defaultValue = "") Double damage,
-                               @RequestParam(required = false) String message) {
-        /*Map<OrderStatus, OrderStatusHandler> handlers = new EnumMap<>(OrderStatus.class);
-        OrderStatusHandler statusHandler = handlers.get(action);
-        statusHandler.handle(null);
-        orderService.updateStatus(orderId, action);
-        //SOLID -> OPEN-CLOSE PRINCIPLE*/
-
-        //TODO: user POST and request body
-
-        //orderService.processOrder(OrderPayload payload);
-        orderService.processOrder(new OrderRequest(orderId, OrderStatus.valueOf(action), damage, message));
-        //orderService.processOrder(orderRequest);
+    @PostMapping("/admin/orders")
+    public String orderRequest(@ModelAttribute("orderRequest") OrderRequest orderRequest) {
+        orderService.processOrder(orderRequest);
         return "redirect:/admin/orders";
     }
 
@@ -120,7 +108,7 @@ public class AdminController {
 
     @ExceptionHandler(CarNotFoundException.class)
     public String handleException(CarNotFoundException e) {
-        log.error("Машина не найдена",e);
+        log.error("Машина не найдена", e);
         return "redirect:/admin/cars";
     }
 
