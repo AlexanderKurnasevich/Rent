@@ -22,7 +22,8 @@ public class Car {
     private int passengers;
     private int doors;
 
-    public Car() {}
+    public Car() {
+    }
 
     public Car(Long id, CarType carType, String name, int bags, int passengers, int doors) {
         this.id = id;

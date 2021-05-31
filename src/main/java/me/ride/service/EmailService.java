@@ -1,6 +1,6 @@
 package me.ride.service;
 
-import me.ride.controller.OrderRequest;
+import me.ride.entity.system.OrderRequest;
 import me.ride.service.context.AbstractEmailContext;
 
 import javax.mail.MessagingException;

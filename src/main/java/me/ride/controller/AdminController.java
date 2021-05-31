@@ -37,9 +37,6 @@ public class AdminController {
     @Autowired
     private PriceService priceService;
 
-    @Autowired
-    private EmailService emailService;
-
     @GetMapping("/admin")
     public String adminPage(Model model) {
         return "admin/index";
@@ -165,32 +162,4 @@ public class AdminController {
         maintenanceService.save(maintenance);
         return "redirect:/admin/cars";
     }
-
-//    @PostMapping("/admin/cars/{id}")
-//    public String processCar(@PathVariable("id") Long id,
-//                             @RequestParam(required = false, defaultValue = "") Integer damage,
-//                             @RequestParam(defaultValue = "") String action,
-//                             Model model) {
-//
-//        return "redirect:/admin/cars";
-//    }
-
-
-
-    /*@PostMapping("/admin")
-    public String deleteUser(@RequestParam(required = true, defaultValue = "") Long userId,
-                             @RequestParam(required = true, defaultValue = "") String action,
-                             Model model) {
-        if (action.equals("delete")) {
-            userService.deleteUser(userId);
-        }
-        return "redirect:/admin";
-    }
-
-    @GetMapping("/admin/gt/{userId}")
-    public String gtUser(@PathVariable("userId") Long userId, Model model) {
-        model.addAttribute("allUsers", userService.usergtList(userId));
-        return "admin";
-    }*/
-
 }

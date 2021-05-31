@@ -1,9 +1,7 @@
-package me.ride.controller;
+package me.ride.entity.system;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import me.ride.entity.system.OrderStatus;
 
 @Getter
 @Setter

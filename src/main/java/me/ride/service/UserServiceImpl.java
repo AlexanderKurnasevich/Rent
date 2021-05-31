@@ -7,7 +7,6 @@ import me.ride.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -40,7 +39,7 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-    public User getAuthorizedUser() throws UsernameNotFoundException{
+    public User getAuthorizedUser() throws UsernameNotFoundException {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = "";
         if (principal instanceof UserDetails) {
@@ -79,10 +78,5 @@ public class UserServiceImpl implements UserService {
             return true;
         }
         return false;
-    }
-
-    public List<User> usergtList(Long idMin) {
-        return em.createQuery("SELECT u FROM User u WHERE u.id > :paramId", User.class)
-                .setParameter("paramId", idMin).getResultList();
     }
 }

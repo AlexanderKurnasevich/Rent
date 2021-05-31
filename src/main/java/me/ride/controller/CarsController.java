@@ -27,9 +27,9 @@ public class CarsController {
     private PriceService priceService;
 
     @GetMapping()
-    public String index(Model model){
+    public String index(Model model) {
         model.addAttribute("cars", carService.index());
-        return"cars/index";
+        return "cars/index";
     }
 
     @GetMapping("/{id}")
@@ -42,18 +42,18 @@ public class CarsController {
     }
 
     @ExceptionHandler(CarNotFoundException.class)
-    public String handleException(CarNotFoundException ex){
-        log.error("Машина не найдена",ex);
+    public String handleException(CarNotFoundException ex) {
+        log.error("Машина не найдена", ex);
         return "redirect:/cars";
     }
 
     @GetMapping("/new")
-    public String newCar(@ModelAttribute("car") Car car, @ModelAttribute("price") RentPrice price){
+    public String newCar(@ModelAttribute("car") Car car, @ModelAttribute("price") RentPrice price) {
         return "cars/new";
     }
 
     @PostMapping
-    public String create(@ModelAttribute("car") Car car, @ModelAttribute("price") RentPrice price){
+    public String create(@ModelAttribute("car") Car car, @ModelAttribute("price") RentPrice price) {
         carService.save(car);
         price.setCar(car);
         priceService.save(price);
@@ -61,13 +61,13 @@ public class CarsController {
     }
 
     @GetMapping("/search/date")
-    public String dateSearch(@ModelAttribute("order")Order order){
+    public String dateSearch(@ModelAttribute("order") Order order) {
         return "cars/search/date_form";
     }
 
     @PostMapping("/search/date")
-    public String dateSearchResult(@ModelAttribute("order") @Valid Order order, BindingResult bindingResult, Model model){
-        if(bindingResult.hasErrors()){
+    public String dateSearchResult(@ModelAttribute("order") @Valid Order order, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
             return "cars/search/date_form";
         }
         model.addAttribute("cars", carService.findAvailableCarsBetween(order.getFirstDay(), order.getLastDay()));

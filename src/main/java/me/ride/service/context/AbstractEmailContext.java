@@ -20,7 +20,8 @@ public abstract class AbstractEmailContext {
         this.context = new HashMap<>();
     }
 
-    public <T> void init(T context){}
+    public <T> void init(T context) {
+    }
 
     public String getFrom() {
         return from;
@@ -91,7 +92,7 @@ public abstract class AbstractEmailContext {
     }
 
     public Object put(String key, Object value) {
-        return key ==null ? null : this.context.put(key.intern(),value);
+        return key == null ? null : this.context.put(key.intern(), value);
     }
 
     public String getTemplateLocation() {

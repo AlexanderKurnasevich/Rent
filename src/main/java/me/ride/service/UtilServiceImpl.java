@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Service
-public class UtilServiceImpl implements UtilService{
+public class UtilServiceImpl implements UtilService {
 
     public Date parseStringToDate(String date1) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");

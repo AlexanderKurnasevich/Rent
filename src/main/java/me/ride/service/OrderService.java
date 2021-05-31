@@ -1,19 +1,17 @@
 package me.ride.service;
 
-import me.ride.controller.OrderRequest;
+import me.ride.entity.system.OrderRequest;
 import me.ride.entity.User;
 import me.ride.entity.system.Damage;
 import me.ride.entity.system.Order;
 import me.ride.entity.system.OrderStatus;
 import me.ride.entity.system.RefuseNote;
 import me.ride.exception.OrderNotFoundException;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
 
-@Service
 public interface OrderService {
 
     void save(Order order);

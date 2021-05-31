@@ -1,6 +1,6 @@
 package me.ride.service;
 
-import me.ride.controller.OrderRequest;
+import me.ride.entity.system.OrderRequest;
 import me.ride.entity.User;
 import me.ride.entity.system.Damage;
 import me.ride.entity.system.Order;
@@ -15,12 +15,11 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.nio.file.attribute.UserPrincipal;
 import java.util.Date;
 import java.util.List;
 
 @Service
-public class OrderServiceImpl implements OrderService{
+public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderRepository orderRepository;
@@ -37,7 +36,7 @@ public class OrderServiceImpl implements OrderService{
     @Autowired
     private EmailService emailService;
 
-    public void save(Order order){
+    public void save(Order order) {
         orderRepository.save(order);
         OrderRequest orderRequest = new OrderRequest();
         orderRequest.setId(order.getId());
@@ -45,12 +44,12 @@ public class OrderServiceImpl implements OrderService{
         emailService.processOrderRequest(orderRequest);
     }
 
-    public void saveRefuseNote(Long orderId, String message){
+    public void saveRefuseNote(Long orderId, String message) {
         refuseNoteRepository.save(new RefuseNote(orderRepository.getOrderById(orderId), message));
     }
 
     @PreAuthorize("this.checkIfAccessAllowed(#order)")
-    public RefuseNote findRefuseNote(Order order){
+    public RefuseNote findRefuseNote(Order order) {
         return refuseNoteRepository.findRefuseNoteByOrder(order);
     }
 
@@ -59,7 +58,7 @@ public class OrderServiceImpl implements OrderService{
         return authorizedUser.equals(order.getUser());
     }
 
-    public void updateStatus(Long orderId, OrderStatus status){
+    public void updateStatus(Long orderId, OrderStatus status) {
         orderRepository.updateStatus(orderId, status);
     }
 
@@ -71,23 +70,23 @@ public class OrderServiceImpl implements OrderService{
         return order;
     }
 
-    public List<Order> getListOfOrders(User user){
+    public List<Order> getListOfOrders(User user) {
         return orderRepository.findAllByUser(user);
     }
 
-    public List<Order> getListOfAllOrders(){
+    public List<Order> getListOfAllOrders() {
         return orderRepository.findAll();
     }
 
-    public List<Order> getListOfOrdersDateBetween(Date date1, Date date2){
+    public List<Order> getListOfOrdersDateBetween(Date date1, Date date2) {
         return orderRepository.findOrdersByFirstDayBetweenOrLastDayBetween(date1, date2);
     }
 
-    public boolean isCarFreeByOrders(Long carId, Date dateFrom, Date dateTo){
+    public boolean isCarFreeByOrders(Long carId, Date dateFrom, Date dateTo) {
         return orderRepository.findOrderByCarBetween(carId, dateFrom, dateTo).isEmpty();
     }
 
-    public void saveDamage(Damage damage){
+    public void saveDamage(Damage damage) {
         damageRepository.save(damage);
     }
 
@@ -110,7 +109,7 @@ public class OrderServiceImpl implements OrderService{
         emailService.processOrderRequest(orderRequest);
     }
 
-    public Damage findDamageByOrder(Order order){
+    public Damage findDamageByOrder(Order order) {
         return damageRepository.findDamageByOrder(order);
     }
 

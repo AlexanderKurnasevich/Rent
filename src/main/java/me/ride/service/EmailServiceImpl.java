@@ -1,7 +1,7 @@
 package me.ride.service;
 
 import lombok.SneakyThrows;
-import me.ride.controller.OrderRequest;
+import me.ride.entity.system.OrderRequest;
 import me.ride.entity.User;
 import me.ride.entity.client.Client;
 import me.ride.service.context.*;
@@ -20,15 +20,6 @@ import java.nio.charset.StandardCharsets;
 @Service
 public class EmailServiceImpl implements EmailService {
 
-    private static final String REFUSED_SUBJECT = "REFUSED_SUBJECT";
-    private static final String REFUSED_TEXT = "REFUSED_TEXT";
-    private static final String ACCEPTED_SUBJECT = "ACCEPTED_SUBJECT";
-    private static final String ACCEPTED_TEXT = "ACCEPTED_TEXT";
-    private static final String CAR_DAMAGED_SUBJECT = "CAR_DAMAGED_SUBJECT";
-    private static final String CAR_DAMAGED_TEXT = "CAR_DAMAGED_TEXT";
-    private static final String RETURNED_SUBJECT = "RETURNED_SUBJECT";
-    private static final String RETURNED_TEXT = "RETURNED_TEXT";
-
     @Autowired
     private JavaMailSender emailSender;
 
@@ -37,9 +28,6 @@ public class EmailServiceImpl implements EmailService {
 
     @Autowired
     private ClientService clientService;
-
-    @Autowired
-    private UserService userService;
 
     @Autowired
     private OrderService orderService;

@@ -27,29 +27,29 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .csrf()
-                    .disable()
+                .disable()
                 .authorizeRequests()
-                    //Доступ только для не зарегистрированных пользователей
-                    .antMatchers("/registration","/client/register").not().fullyAuthenticated()
-                    //Доступ только для пользователей с ролью Администратор
-                    .antMatchers("/admin/**","/cars/new").hasRole("ADMIN")
-                    .antMatchers("/orders/**","/client/**").hasRole("USER")
-                    //Доступ разрешен всем пользователей
-                    .antMatchers("/", "/resources/**", "/fragments/**", "/cars/**").permitAll()
-                    .antMatchers("/img/**", "/js/**", "/css/**").permitAll()
+                //Доступ только для не зарегистрированных пользователей
+                .antMatchers("/registration", "/client/register").not().fullyAuthenticated()
+                //Доступ только для пользователей с ролью Администратор
+                .antMatchers("/admin/**", "/cars/new").hasRole("ADMIN")
+                .antMatchers("/orders/**", "/client/**").hasRole("USER")
+                //Доступ разрешен всем пользователей
+                .antMatchers("/", "/resources/**", "/fragments/**", "/cars/**").permitAll()
+                .antMatchers("/img/**", "/js/**", "/css/**").permitAll()
                 //Все остальные страницы требуют аутентификации
                 .anyRequest().authenticated()
                 .and()
-                    //Настройка для входа в систему
-                    .formLogin()
-                    .loginPage("/login")
-                    //Перенарпавление на главную страницу после успешного входа
-                    .defaultSuccessUrl("/")
-                    .permitAll()
+                //Настройка для входа в систему
+                .formLogin()
+                .loginPage("/login")
+                //Перенарпавление на главную страницу после успешного входа
+                .defaultSuccessUrl("/")
+                .permitAll()
                 .and()
-                    .logout()
-                    .permitAll()
-                    .logoutSuccessUrl("/");
+                .logout()
+                .permitAll()
+                .logoutSuccessUrl("/");
     }
 
     @Autowired

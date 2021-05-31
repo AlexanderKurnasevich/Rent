@@ -6,8 +6,6 @@ import me.ride.service.ClientService;
 import me.ride.service.OrderService;
 import me.ride.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -38,17 +36,17 @@ public class ClientController {
 
     @PostMapping("/register")
     public String addClient(@ModelAttribute("userForm") @Valid User userForm, BindingResult bindingResult,
-                          @ModelAttribute("clientForm") @Valid Client clientForm, BindingResult bindingResult2, Model model) {
+                            @ModelAttribute("clientForm") @Valid Client clientForm, BindingResult bindingResult2, Model model) {
 
         if (bindingResult.hasErrors() || bindingResult2.hasErrors()) {
             return "client/register";
         }
         if (!userForm.getPassword().equals(userForm.getPasswordConfirm())) {
-            bindingResult.addError(new FieldError("userForm","passwordConfirm","Пароли не совпадают"));
+            bindingResult.addError(new FieldError("userForm", "passwordConfirm", "Пароли не совпадают"));
             return "client/register";
         }
         if (!userService.saveUser(userForm)) {
-            bindingResult.addError(new FieldError("userForm","username","Пользователь с таким именем уже существует"));
+            bindingResult.addError(new FieldError("userForm", "username", "Пользователь с таким именем уже существует"));
             return "client/register";
         }
         clientForm.setUser(userForm);
@@ -73,7 +71,7 @@ public class ClientController {
 
     @PostMapping("/profile/edit")
     public String updateProfile(@ModelAttribute("userForm") @Valid User userForm, BindingResult bindingResult,
-                                @ModelAttribute("clientForm") @Valid Client clientForm, BindingResult bindingResult2, Model model){
+                                @ModelAttribute("clientForm") @Valid Client clientForm, BindingResult bindingResult2, Model model) {
         if (bindingResult.hasErrors() || bindingResult2.hasErrors()) {
             return "client/profile/edit";
         }

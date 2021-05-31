@@ -2,7 +2,6 @@ package me.ride.entity.system;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.ride.entity.User;
 import me.ride.entity.car.Car;
 import org.springframework.lang.NonNull;
 

@@ -1,14 +1,14 @@
 package me.ride.entity.system;
 
 public enum OrderStatus {
-    UNDER_CONSIDERATION ("Обрабатывается"),
-    ACCEPTED ("Одобрен"),
-    PAID ("Оплачен"),
-    RETURNED ("Завершён"),
-    CAR_DAMAGED ("Машина повреждена"),
-    REFUSED ("Отказано");
+    UNDER_CONSIDERATION("Обрабатывается"),
+    ACCEPTED("Одобрен"),
+    PAID("Оплачен"),
+    RETURNED("Завершён"),
+    CAR_DAMAGED("Машина повреждена"),
+    REFUSED("Отказано");
 
-    private String title;
+    private final String title;
 
     OrderStatus(String title) {
         this.title = title;

@@ -1,14 +1,15 @@
 package me.ride.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import me.ride.entity.User;
 import me.ride.entity.car.Car;
 import me.ride.entity.system.Order;
+import me.ride.entity.system.OrderRequest;
 import me.ride.entity.system.OrderStatus;
 import me.ride.exception.CarNotFoundException;
 import me.ride.exception.OrderNotFoundException;
 import me.ride.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,39 +47,45 @@ public class OrderController {
     }
 
     @ExceptionHandler(CarNotFoundException.class)
-    public String handleException(CarNotFoundException ex){
-        log.error("Машина не найдена",ex);
+    public String handleException(CarNotFoundException ex) {
+        log.error("Машина не найдена", ex);
         return "redirect:/cars";
     }
 
     @PostMapping("/new")
-    public String create(@ModelAttribute("order") @Valid Order order, BindingResult bindingResult){
+    public String create(@ModelAttribute("order") @Valid Order order, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "orders/new";
         }
-        if(order.getLastDay().before(order.getFirstDay())){
-            bindingResult.addError(new FieldError("order","lastDay","Последний день должен быть позже первого"));
+        if (order.getLastDay().before(order.getFirstDay())) {
+            bindingResult.addError(new FieldError("order", "lastDay", "Последний день должен быть позже первого"));
             return "orders/new";
         }
         if (!orderService.isCarFreeByOrders(order.getCar().getId(), order.getFirstDay(), order.getLastDay())
-                || !maintenanceService.isCarFreeByMaintenance(order.getCar().getId(), order.getFirstDay(), order.getLastDay())){
-            bindingResult.addError(new FieldError("order","lastDay","Машина занята на эти дни"));
+                || !maintenanceService.isCarFreeByMaintenance(order.getCar().getId(), order.getFirstDay(), order.getLastDay())) {
+            bindingResult.addError(new FieldError("order", "lastDay", "Машина занята на эти дни"));
             return "orders/new";
         }
         order.setUser(userService.getAuthorizedUser());
         order.setPrice(priceService.getPrice(order.getCar(), order.getFirstDay(), order.getLastDay()));
-        orderService.save(order);
+        try {
+            orderService.save(order);
+        } catch (JpaSystemException ex) {
+            log.info("Конфликт заказов", ex);
+            bindingResult.addError(new FieldError("order", "lastDay", "Машина занята на эти дни"));
+            return "orders/new";
+        }
         return "redirect:/cars";
     }
 
     @ExceptionHandler(UsernameNotFoundException.class)
-    public String handleException(UsernameNotFoundException ex){
-        log.error("Пользователь не найден",ex);
+    public String handleException(UsernameNotFoundException ex) {
+        log.error("Пользователь не найден", ex);
         return "redirect:/orders";
     }
 
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") Long id, Model model) throws OrderNotFoundException { //вынести в service
+    public String show(@PathVariable("id") Long id, Model model) throws OrderNotFoundException {
         Order order = orderService.show(id);
         model.addAttribute("order", order);
         model.addAttribute("note", orderService.findRefuseNote(order));
@@ -86,8 +93,8 @@ public class OrderController {
     }
 
     @ExceptionHandler(OrderNotFoundException.class)
-    public String handleException(OrderNotFoundException ex){
-        log.error("Заказ не найден",ex);
+    public String handleException(OrderNotFoundException ex) {
+        log.error("Заказ не найден", ex);
         return "redirect:/client/profile";
     }
 
